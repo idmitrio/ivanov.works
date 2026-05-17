@@ -59,22 +59,6 @@ body {
     linear-gradient(135deg, rgba(255, 255, 255, 0.64), rgba(255, 255, 255, 0.2));
 }
 
-.intro::before {
-  content: "";
-  position: absolute;
-  inset: auto clamp(24px, 8vw, 120px) clamp(24px, 8vw, 96px) auto;
-  width: min(34vw, 420px);
-  height: 1px;
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(47, 111, 94, 0.8),
-      rgba(216, 80, 63, 0.65),
-      transparent
-    );
-}
-
 .brand-mark {
   position: relative;
   z-index: 1;
