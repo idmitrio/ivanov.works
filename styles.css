@@ -41,26 +41,38 @@ body {
   padding: clamp(24px, 6vw, 80px);
   overflow: hidden;
   background:
-    radial-gradient(circle at 76% 18%, rgba(47, 111, 94, 0.2), transparent 24%),
+    radial-gradient(circle at 78% 20%, rgba(47, 111, 94, 0.18), transparent 24%),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 31px,
+      rgba(17, 17, 17, 0.045) 31px,
+      rgba(17, 17, 17, 0.045) 32px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 31px,
+      rgba(17, 17, 17, 0.035) 31px,
+      rgba(17, 17, 17, 0.035) 32px
+    ),
     linear-gradient(135deg, rgba(255, 255, 255, 0.64), rgba(255, 255, 255, 0.2));
 }
 
 .intro::before {
   content: "";
   position: absolute;
-  inset: auto -8% -24% 42%;
-  aspect-ratio: 1;
-  border: 1px solid rgba(17, 17, 17, 0.1);
+  inset: auto clamp(24px, 8vw, 120px) clamp(24px, 8vw, 96px) auto;
+  width: min(34vw, 420px);
+  height: 1px;
   background:
-    repeating-linear-gradient(
+    linear-gradient(
       90deg,
-      rgba(17, 17, 17, 0.12) 0,
-      rgba(17, 17, 17, 0.12) 1px,
-      transparent 1px,
-      transparent 28px
-    ),
-    linear-gradient(135deg, rgba(47, 111, 94, 0.18), rgba(216, 80, 63, 0.08));
-  transform: rotate(-8deg);
+      transparent,
+      rgba(47, 111, 94, 0.8),
+      rgba(216, 80, 63, 0.65),
+      transparent
+    );
 }
 
 .brand-mark {
@@ -130,10 +142,6 @@ h1 {
 }
 
 @media (max-width: 700px) {
-  .intro::before {
-    inset: auto -42% -12% 12%;
-  }
-
   .brand-mark {
     width: 56px;
     height: 56px;
