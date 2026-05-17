@@ -105,6 +105,27 @@ h1 {
   line-height: 1.45;
 }
 
+.contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-top: 32px;
+}
+
+.contacts a {
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 650;
+  text-decoration-color: rgba(17, 17, 17, 0.25);
+  text-underline-offset: 5px;
+  transition: color 0.18s ease, text-decoration-color 0.18s ease;
+}
+
+.contacts a:hover {
+  color: var(--accent-strong);
+  text-decoration-color: currentColor;
+}
+
 .status {
   position: relative;
   z-index: 1;
