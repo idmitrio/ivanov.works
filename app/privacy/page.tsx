@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Политика обработки персональных данных — Иванов Дмитрий Анатольевич",
+  title:
+    "Политика обработки персональных данных — ИИ-студия Дмитрия Иванова",
   description:
     "Политика ИП Иванова Дмитрия Анатольевича в отношении обработки персональных данных на сайте ivanov.works.",
 };
