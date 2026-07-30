@@ -13,10 +13,10 @@ export default function PrivacyPage() {
   return (
     <main className="legal-page">
       <header className="inner-header">
-        <Link href="/" aria-label="На главную">
+        <Link href="/" aria-label="На главную">
           <img src="/brand/ivanov-ai-logo-black.svg" alt="ИИ-студия Дмитрия Иванова" />
         </Link>
-        <Link href="/" className="back-link"><span>←</span> Вернуться на сайт</Link>
+        <Link href="/" className="back-link"><span>←</span> Вернуться на сайт</Link>
       </header>
       <div className="legal-layout">
         <aside className="legal-aside">
@@ -47,7 +47,7 @@ export default function PrivacyPage() {
               )}
             </section>
           ))}
-          <Link href="/" className="button button--primary legal-bottom-back">← &nbsp; Вернуться на сайт</Link>
+          <Link href="/" className="button button--primary legal-bottom-back">← &nbsp; Вернуться на сайт</Link>
         </article>
       </div>
       <footer className="inner-footer"><span>© ИИ-студия Дмитрия Иванова</span><span>Все права защищены</span></footer>
