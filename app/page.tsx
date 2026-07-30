@@ -6,6 +6,21 @@ const telegram = "https://t.me/dmitrio";
 const maxLink =
   "https://max.ru/u/f9LHodD0cOIl7MPfiO0OlgTYfDEeoMc8C2UPsPUluf-6LFlEINKfwLu4-O0";
 const email = "mailto:dmitry@ivanov.works";
+const yandexMetrikaId = 109276483;
+
+declare global {
+  interface Window {
+    ym?: (
+      counterId: number,
+      method: "reachGoal",
+      goal: "IW_FEEDBACK_OPEN" | "IW_FEEDBACK_SEND",
+    ) => void;
+  }
+}
+
+function reachGoal(goal: "IW_FEEDBACK_OPEN" | "IW_FEEDBACK_SEND") {
+  window.ym?.(yandexMetrikaId, "reachGoal", goal);
+}
 
 const solutions = [
   {
@@ -329,6 +344,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
         body: JSON.stringify({ name, contact, company, message }),
       });
       if (!response.ok) throw new Error("Contact request failed");
+      reachGoal("IW_FEEDBACK_SEND");
       setStatus("success");
     } catch {
       setStatus("error");
@@ -442,7 +458,10 @@ export default function Home() {
     };
   }, []);
 
-  const openForm = () => setModal(true);
+  const openForm = () => {
+    reachGoal("IW_FEEDBACK_OPEN");
+    setModal(true);
+  };
   return (
     <>
       <header className={`site-header ${compactHeader ? "site-header--compact" : ""}`}>
@@ -606,7 +625,7 @@ export default function Home() {
       </footer>
       <Menu open={menu} onClose={() => setMenu(false)} onForm={openForm} />
       <ContactModal open={modal} onClose={() => setModal(false)} />
-      <CookieNotice enabled={false} />
+      <CookieNotice enabled />
     </>
   );
 }
