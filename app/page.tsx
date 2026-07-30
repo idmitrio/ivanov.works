@@ -433,17 +433,17 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
             <p className="modal-lead">Оставьте контакты, мы свяжемся с вами в ближайшее время</p>
             <label>
               <span>Ваше имя <b>*</b></span>
-              <input placeholder="Дмитрий Иванов" value={name} onChange={(e) => { setName(e.target.value); clearError("name"); }} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} />
+              <input placeholder="Константин Константинопольский" value={name} onChange={(e) => { setName(e.target.value); clearError("name"); }} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} />
               {errors.name && <small className="field-error" id="name-error">ⓘ {errors.name}</small>}
             </label>
             <label>
               <span>Email или Telegram <b>*</b></span>
-              <input placeholder="@dmitrio или dmitry@example.com" value={contact} onChange={(e) => { setContact(e.target.value); clearError("contact"); }} aria-invalid={Boolean(errors.contact)} aria-describedby={errors.contact ? "contact-error" : undefined} />
+              <input placeholder="kostya@konstantinopolis.ru или @kostya" value={contact} onChange={(e) => { setContact(e.target.value); clearError("contact"); }} aria-invalid={Boolean(errors.contact)} aria-describedby={errors.contact ? "contact-error" : undefined} />
               {errors.contact && <small className="field-error" id="contact-error">ⓘ {errors.contact}</small>}
             </label>
             <label>
               <span>Компания</span>
-              <input placeholder="Название компании" value={company} onChange={(e) => setCompany(e.target.value)} />
+              <input placeholder="ООО «Константа»" value={company} onChange={(e) => setCompany(e.target.value)} />
             </label>
             <label>
               <span>Сообщение</span>
