@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Workflow"
+  short_description: "Run findings-first code reviews focused on concrete bugs, regressions, security risks, and test gaps."
+  default_prompt: "Use this skill to review diffs, PRs, local changes, architectural changes, critiques, or risk assessments with findings first, severity labels, file and line references, concrete correction guidance, and a Codex Security pass for reviewed code when available."

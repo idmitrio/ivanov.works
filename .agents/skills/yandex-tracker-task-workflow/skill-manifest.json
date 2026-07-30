@@ -1,0 +1,1 @@
+{"schema_version":1,"requires":["yandex-tracker-api","git-branch-workflow","commit-workflow","review-workflow","sf-migration-workflow","sf-settings-workflow","develop-pr-workflow"]}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Release Workflow"
+  short_description: "Complete releases and hotfixes through guarded gates."
+  default_prompt: "Use this skill to prepare or complete a release or hotfix with canonical versioning, overlay-aware tests and review, mandatory changelog approval, PR merge, tag, cleanup, and branch sync."

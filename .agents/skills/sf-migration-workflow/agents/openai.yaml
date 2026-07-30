@@ -1,0 +1,4 @@
+interface:
+  display_name: "Migration Workflow"
+  short_description: "Create and register repository migrations."
+  default_prompt: "Use this skill to create or update migrations in this repository, choose the next vYYMMDDN prefix, add the file under migrations/, and register it in app/Base/Migrator.php."

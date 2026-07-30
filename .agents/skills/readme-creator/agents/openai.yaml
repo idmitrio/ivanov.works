@@ -1,0 +1,4 @@
+interface:
+  display_name: "README Creator"
+  short_description: "Create evidence-based Russian project READMEs."
+  default_prompt: "Use this skill to inspect the repository and create or refresh a concise Russian README.md with verified setup, configuration, development, test, and deployment guidance."

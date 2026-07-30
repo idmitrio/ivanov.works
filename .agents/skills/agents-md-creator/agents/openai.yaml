@@ -1,0 +1,4 @@
+interface:
+  display_name: "AGENTS.md Creator"
+  short_description: "Create compact repository-specific AGENTS.md rules."
+  default_prompt: "Use this skill to inspect the repository and create or update AGENTS.md with verified boundaries, commands, safety rules, and only necessary workflow routing."

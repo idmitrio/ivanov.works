@@ -1,0 +1,35 @@
+{
+  "schema_version": 2,
+  "source": "git@github.com:idmitrio/codex-shared-skills.git",
+  "ref": "master",
+  "commit": "c004685b1783502cb4ea479be826b24a4ab2f757",
+  "selected": [
+    "codex-shared-skills-workflow",
+    "agents-md-creator",
+    "commit-workflow",
+    "develop-pr-workflow",
+    "git-branch-workflow",
+    "readme-creator",
+    "release-workflow",
+    "repo-skill-creator",
+    "review-workflow",
+    "yandex-tracker-api",
+    "yandex-tracker-task-workflow"
+  ],
+  "resolved": [
+    "codex-shared-skills-workflow",
+    "agents-md-creator",
+    "commit-workflow",
+    "review-workflow",
+    "develop-pr-workflow",
+    "git-branch-workflow",
+    "readme-creator",
+    "changelog-workflow",
+    "release-workflow",
+    "repo-skill-creator",
+    "yandex-tracker-api",
+    "sf-migration-workflow",
+    "sf-settings-workflow",
+    "yandex-tracker-task-workflow"
+  ]
+}
