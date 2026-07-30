@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { fetch as proxyFetch, ProxyAgent } from "undici";
 
 export const runtime = "nodejs";
 
@@ -43,8 +44,17 @@ export async function POST(request: Request) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
   const threadId = process.env.TELEGRAM_THREAD_ID;
+  const proxyUrlValue = process.env.TELEGRAM_PROXY_URL;
+  const proxyUser = process.env.TELEGRAM_PROXY_USER;
+  const proxyPassword = process.env.TELEGRAM_PROXY_PASSWORD;
 
-  if (!token || !chatId) {
+  if (
+    !token ||
+    !chatId ||
+    !proxyUrlValue ||
+    !proxyUser ||
+    !proxyPassword
+  ) {
     console.error("Telegram contact form environment variables are not configured");
     return NextResponse.json(
       { error: "Contact delivery is not configured" },
@@ -70,24 +80,38 @@ export async function POST(request: Request) {
 
   if (threadId) telegramPayload.message_thread_id = Number(threadId);
 
+  let proxy: ProxyAgent | null = null;
   try {
-    const response = await fetch(
+    const proxyUrl = new URL(proxyUrlValue);
+    if (proxyUrl.protocol !== "http:" && proxyUrl.protocol !== "https:") {
+      throw new Error("Unsupported Telegram proxy protocol");
+    }
+    proxyUrl.username = proxyUser;
+    proxyUrl.password = proxyPassword;
+    proxy = new ProxyAgent(proxyUrl.toString());
+
+    const response = await proxyFetch(
       `https://api.telegram.org/bot${token}/sendMessage`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(telegramPayload),
-        cache: "no-store",
+        dispatcher: proxy,
       },
     );
+    await response.text();
 
     if (!response.ok) {
       console.error("Telegram contact delivery failed", response.status);
       return NextResponse.json({ error: "Delivery failed" }, { status: 502 });
     }
-  } catch (error) {
-    console.error("Telegram contact delivery failed", error);
+  } catch {
+    console.error("Telegram contact delivery failed");
     return NextResponse.json({ error: "Delivery failed" }, { status: 502 });
+  } finally {
+    if (proxy) await proxy.close().catch(() => undefined);
   }
 
   return NextResponse.json({ ok: true });

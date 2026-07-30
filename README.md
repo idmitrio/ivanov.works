@@ -1,98 +1,98 @@
-# vinext-starter
+# Ivanov Works
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+Сайт ИИ-студии Дмитрия Иванова. Проект работает на Next.js и разворачивается
+на собственном сервере в Docker. Входящий HTTPS-трафик принимает Caddy, который
+автоматически выпускает и продлевает TLS-сертификаты.
 
-## Prerequisites
+## Требования
 
-- Node.js `>=22.13.0`
+Для локальной разработки:
 
-## Quick Start
+- Node.js 22.13 или новее;
+- npm.
+
+Для сервера:
+
+- Ubuntu 24.04 LTS;
+- Docker Engine с плагином Docker Compose;
+- открытые входящие порты 80 и 443;
+- DNS-записи домена, направленные на публичный IP сервера.
+
+## Локальная разработка
 
 ```bash
-npm install
+npm ci
 npm run dev
+```
+
+Сайт будет доступен по адресу `http://localhost:3000`.
+
+Проверки перед публикацией:
+
+```bash
+npm run lint
 npm run build
+docker compose config --quiet
 ```
 
-This starter does not use `wrangler.jsonc`.
+## Переменные окружения
 
-## Included Shape
+Создайте в корне проекта файл `.env`. Он не должен попадать в Git.
 
-- edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
+```dotenv
+TELEGRAM_BOT_TOKEN=replace-me
+TELEGRAM_CHAT_ID=replace-me
+TELEGRAM_PROXY_URL=http://proxy.example:3128
+TELEGRAM_PROXY_USER=replace-me
+TELEGRAM_PROXY_PASSWORD=replace-me
 
-## Workspace Auth Headers
+# Необязательно: тема в Telegram-группе.
+TELEGRAM_THREAD_ID=
 
-OpenAI workspace sites can read the current user's email from
-`oai-authenticated-user-email`.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
+# Необязательно: основной домен для Caddy. По умолчанию ivanov.works.
+SITE_DOMAIN=ivanov.works
 ```
 
-## Optional Dispatch-Owned ChatGPT Sign-In
+Адрес прокси указывается вместе с протоколом `http://` или `https://`.
+Секреты доступны только серверному обработчику `/api/contact` и не передаются
+в клиентский JavaScript.
 
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
+## Развёртывание
 
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
+До первого запуска создайте DNS-записи `A` для основного домена и `www`,
+направленные на IP сервера. Если используется IPv6, добавьте корректные
+`AAAA`-записи. Убедитесь, что firewall и панель хостинга пропускают TCP 80/443
+и UDP 443.
 
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
+Скопируйте проект и заполненный `.env` на сервер, затем выполните:
 
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
+```bash
+docker compose up -d --build
+docker compose ps
+```
 
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
+Caddy получит сертификат после того, как домен начнёт разрешаться в IP сервера.
+Проверить запуск и выпуск сертификата можно по логам:
 
-## Useful Commands
+```bash
+docker compose logs -f app caddy
+```
 
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
+Для обновления сайта:
 
-## Learn More
+```bash
+git pull
+docker compose up -d --build
+```
 
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+Данные и учётная информация Caddy хранятся в именованных томах
+`caddy_data` и `caddy_config`, поэтому сертификаты сохраняются при пересоздании
+контейнеров.
+
+## Структура
+
+- `app/` — страницы, компоненты, стили и серверный обработчик формы;
+- `public/` — шрифты, favicon и оригинальные фирменные SVG;
+- `Dockerfile` — многоэтапная сборка standalone-приложения;
+- `compose.yaml` — приложение и reverse proxy;
+- `Caddyfile` — HTTPS, сжатие, заголовки и проксирование.

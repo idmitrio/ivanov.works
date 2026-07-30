@@ -13,11 +13,11 @@
 - Product routes are `/`, `/privacy`, and `/case-template`; application code lives in `app/`.
 - Global design tokens and responsive rules live in `app/globals.css`; reusable visual decisions should be expressed there instead of duplicated inline.
 - Use the original SVG assets in `public/brand/` without changing their geometry. Do not redraw or “improve” the mark.
-- Preserve the vinext structure, the `sites()` Vite plugin, and the Cloudflare Worker entrypoint. Do not convert the project to a standard Next.js runtime.
-- `.openai/hosting.json` contains logical D1/R2 declarations only. Never put secrets or hosted runtime values there.
-- Do not connect `db/`, Drizzle, `examples/d1/`, D1, or R2 unless a task explicitly requires persistent data.
+- The production runtime is Next.js in standalone Node.js mode. `Dockerfile` builds the application, `compose.yaml` runs it, and Caddy in `Caddyfile` terminates HTTPS and proxies requests to the app.
+- Do not restore the obsolete vinext, Cloudflare Worker, Sites hosting, D1, or R2 runtime paths unless the user explicitly requests another hosting migration.
+- Keep the application container private behind Caddy. Only Caddy exposes ports 80 and 443.
 - Never edit managed copies in `.agents/skills/`; update them through `codex-skills.json` and `./scripts/codex-skills.sh`.
-- Do not edit or commit generated/runtime output such as `dist/`, `.vinext/`, `.wrangler/`, or ignored build artifacts.
+- Do not edit or commit generated/runtime output such as `.next/`, `node_modules/`, Caddy data, or ignored build artifacts.
 
 ## Design Direction
 
@@ -72,14 +72,20 @@
 - Escape closes an empty form; a dirty form opens close confirmation. Lock background scrolling, trap focus, and return focus to the opening CTA.
 - Meet WCAG AA: visible labels, logical tab order, sufficient contrast, linked error descriptions, keyboard access, and non-icon-only meaning.
 - The cookie notice stays disabled unless optional analytics or advertising cookies are actually introduced.
-- The form submits through `/api/contact` to the Telegram Bot API. Configure `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in the runtime environment; `TELEGRAM_THREAD_ID` is optional. Never expose these values to client code or commit them.
+- The form submits through `/api/contact` to the Telegram Bot API over the configured HTTP or HTTPS proxy.
+- Required runtime variables are `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TELEGRAM_PROXY_URL`, `TELEGRAM_PROXY_USER`, and `TELEGRAM_PROXY_PASSWORD`; `TELEGRAM_THREAD_ID` is optional.
+- `TELEGRAM_PROXY_URL` must include its protocol, for example `http://proxy.example:3128`.
+- Never expose secret variables to client code, include their values in logs, or commit `.env`.
 
 ## Commands and Verification
 
 - Install dependencies with `npm ci`; run locally with `npm run dev`.
-- `npm run build` is required for every product change and is the current deployment-build check.
+- `npm run build` is required for every product change and verifies the standalone Next.js build.
 - Run `npm run lint` for TypeScript, React, or CSS work and report errors and warnings separately.
-- `npm test` is not currently a valid acceptance check: `tests/rendered-html.test.mjs` still expects the removed starter skeleton. Do not claim tests pass until it is replaced.
+- Validate the deployment definition with `docker compose config --quiet`.
+- Build and start production with `docker compose up -d --build`; inspect health and logs with `docker compose ps` and `docker compose logs`.
+- Caddy issues and renews public TLS certificates automatically when DNS points to the server and inbound ports 80 and 443 are open.
+- There is no automated test script yet. Do not claim tests pass based on lint or build alone.
 - After visual changes, perform browser QA at 1440 px and 390 px. Check the hero, spacing, typography, menu, FAQ, form states, `/privacy`, and `/case-template`.
 - Compare against supplied PNG references when available, but treat the approved written brief as authoritative for exact copy and behavior.
 - Do not refresh committed screenshots unless the task explicitly includes visual comparison or reference updates.
@@ -92,4 +98,4 @@
 - Route Yandex Tracker development tasks through `yandex-tracker-task-workflow` and direct Tracker operations through `yandex-tracker-api`.
 - Never discard unrelated user changes in a dirty worktree.
 - Never commit `.env*`, credentials, tokens, personal data, real form submissions, dumps, or logs.
-- Publishing, analytics, external form handlers, persistence, and access-policy changes require an explicit task and appropriate validation.
+- Publishing, analytics, external integrations, persistence, and access-policy changes require an explicit task and appropriate validation.
