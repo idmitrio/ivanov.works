@@ -34,48 +34,35 @@ const solutions = [
     input: "Счета, акты, договоры, заявки, накладные, сканы и письма.",
     system:
       "ИИ извлекает нужные данные и сверяет их с заказом, договором, 1С или ERP. Нашел расхождение или не уверен в результате — передает документ сотруднику на проверку.",
-    employee:
-      "Проверить отмеченные расхождения, при необходимости исправить данные и подтвердить результат.",
-    result:
-      "Вручную остается разбирать только спорные случаи, а не каждый документ целиком.",
+    result: "Сотрудник не тратит время на проверку каждого документа.",
   },
   {
     title: "Заявки и обращения",
     input: "Письма, формы с сайта, сообщения из мессенджеров и обращения в CRM.",
     system:
       "ИИ определяет, с чем обратился клиент, собирает данные и направляет заявку нужному сотруднику. Если информации не хватает, запрашивает уточнение.",
-    employee:
-      "Ответить на нестандартный запрос или подключиться, если данных для решения недостаточно.",
-    result: "Команде не приходится вручную сортировать весь входящий поток.",
+    result: "Заявки автоматически попадают к нужным сотрудникам.",
   },
   {
     title: "Поддержка сотрудников и клиентов",
     input: "Типовые вопросы, регламенты и история обращения.",
     system:
       "ИИ готовит ответ по регламентам и истории обращения. Команда быстрее отвечает на типовые вопросы, а сложные случаи сразу передает специалисту.",
-    employee:
-      "Разобрать сложный случай и подтвердить ответ, когда требуется экспертное решение.",
-    result: "Опытные сотрудники меньше отвлекаются на одни и те же вопросы.",
+    result: "Повторяющиеся вопросы не отвлекают опытных сотрудников.",
   },
   {
     title: "Поиск по базе знаний",
     input: "Регламенты, инструкции, договоры и проектная документация.",
     system:
       "Помощник находит ответ и показывает источник. Если в документах ответа нет, так и говорит, а не пытается его придумать.",
-    employee:
-      "Проверить источник и принять решение, если готового ответа в базе знаний нет.",
-    result:
-      "Сотрудники быстрее находят нужную информацию и реже идут с вопросами к коллегам.",
+    result: "Сотрудники быстрее находят ответы в документах компании.",
   },
   {
     title: "Аналитика и контроль показателей",
     input: "Данные из таблиц, CRM, ERP и других рабочих систем.",
     system:
-      "ИИ анализирует данные по заданным правилам: готовит сводки, сравнивает периоды и показывает отклонения.",
-    employee:
-      "Разобрать отмеченные отклонения и принять управленческое решение.",
-    result:
-      "Руководителю не приходится вручную сводить данные, чтобы понять, где требуется внимание.",
+      "ИИ анализирует данные из рабочих систем по заданным правилам: готовит сводки, сравнивает периоды и показывает отклонения.",
+    result: "Руководитель видит, где требуется его внимание.",
   },
 ];
 
@@ -198,6 +185,28 @@ function CookieNotice({ enabled }: { enabled: boolean }) {
         window.dispatchEvent(new Event(analyticsConsentEvent));
       }}>OK</button>
     </aside>
+  );
+}
+
+function SolutionBenefitPanel({
+  item,
+  className = "",
+}: {
+  item: (typeof solutions)[number];
+  className?: string;
+}) {
+  return (
+    <div className={`solution-benefit-panel ${className}`}>
+      <div className="solution-benefit-main">
+        <span>Что получит ваша команда</span>
+        <h3>{item.result}</h3>
+        <p>{item.input}</p>
+      </div>
+      <div className="solution-benefit-proof">
+        <strong>За счёт чего</strong>
+        <p>{item.system}</p>
+      </div>
+    </div>
   );
 }
 
@@ -542,41 +551,41 @@ export default function Home() {
             <p className="section-kicker">РЕШЕНИЯ</p>
             <div className="section-heading-row">
               <h2>Где можно сократить ручную работу</h2>
-              <p>Система обрабатывает типовой поток. Сотруднику передаёт случаи, где нужна проверка или решение.</p>
+              <p>Выберите знакомую задачу и посмотрите, что изменится в работе команды после внедрения.</p>
             </div>
-            <div className="solutions-list">
+            <div className="solutions-benefit-desktop">
+              <div className="solution-benefit-nav" aria-label="Сценарии автоматизации">
+                {solutions.map((item, index) => {
+                  const isOpen = index === openSolution;
+                  return (
+                    <button
+                      className={isOpen ? "active" : ""}
+                      onClick={() => setOpenSolution(index)}
+                      aria-pressed={isOpen}
+                      key={item.title}
+                    >
+                      <span>{item.title}</span>
+                      <i aria-hidden="true">→</i>
+                    </button>
+                  );
+                })}
+              </div>
+              <SolutionBenefitPanel item={solutions[openSolution]} />
+            </div>
+            <div className="solutions-benefit-mobile">
               {solutions.map((item, index) => {
                 const isOpen = index === openSolution;
                 return (
-                  <article className={`solution ${isOpen ? "solution--open" : ""}`} key={item.title}>
-                    <button className="solution-head" onClick={() => setOpenSolution(index)} aria-expanded={isOpen}>
+                  <article className={isOpen ? "active" : ""} key={item.title}>
+                    <button
+                      className="solution-benefit-mobile-head"
+                      onClick={() => setOpenSolution(index)}
+                      aria-expanded={isOpen}
+                    >
                       <span>{item.title}</span>
                       <i aria-hidden="true">{isOpen ? "−" : "+"}</i>
                     </button>
-                    {isOpen && (
-                      <div className="solution-body">
-                        <div className="solution-column">
-                          <span className="solution-icon" aria-hidden="true">▤</span>
-                          <strong>Вход</strong>
-                          <p>{item.input}</p>
-                        </div>
-                        <div className="solution-column">
-                          <span className="solution-icon" aria-hidden="true">▦</span>
-                          <strong>Что делает система</strong>
-                          <p>{item.system}</p>
-                        </div>
-                        <div className="solution-column">
-                          <span className="solution-icon" aria-hidden="true">♙</span>
-                          <strong>Сотруднику</strong>
-                          <p>{item.employee}</p>
-                        </div>
-                        <div className="solution-column">
-                          <span className="solution-icon" aria-hidden="true">◇</span>
-                          <strong>Результат</strong>
-                          <p>{item.result}</p>
-                        </div>
-                      </div>
-                    )}
+                    {isOpen && <SolutionBenefitPanel item={item} />}
                   </article>
                 );
               })}
