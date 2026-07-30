@@ -1,6 +1,12 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import {
+  FormEvent,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 
 const telegram = "https://t.me/dmitrio";
 const maxLink =
@@ -144,15 +150,52 @@ function DirectLinks({ compact = false }: { compact?: boolean }) {
   );
 }
 
+const analyticsConsentKey = "analytics-cookie-consent";
+const analyticsConsentEvent = "analytics-consent-change";
+
+function subscribeToAnalyticsConsent(onChange: () => void) {
+  window.addEventListener("storage", onChange);
+  window.addEventListener(analyticsConsentEvent, onChange);
+  return () => {
+    window.removeEventListener("storage", onChange);
+    window.removeEventListener(analyticsConsentEvent, onChange);
+  };
+}
+
+function getAnalyticsConsent() {
+  try {
+    return localStorage.getItem(analyticsConsentKey) === "ok";
+  } catch {
+    return false;
+  }
+}
+
+function subscribeToClientReady() {
+  return () => {};
+}
+
 function CookieNotice({ enabled }: { enabled: boolean }) {
-  const [visible, setVisible] = useState(enabled);
-  if (!visible) return null;
+  const clientReady = useSyncExternalStore(
+    subscribeToClientReady,
+    () => true,
+    () => false,
+  );
+  const accepted = useSyncExternalStore(
+    subscribeToAnalyticsConsent,
+    getAnalyticsConsent,
+    () => false,
+  );
+  if (!enabled || !clientReady || accepted) return null;
   return (
     <aside className="cookie-notice" aria-label="Уведомление о cookie">
-      <p>Мы используем необходимые файлы cookie для работы сайта и, с вашего согласия, аналитические cookie для улучшения сайта.</p>
+      <p>
+        Мы используем cookies и Яндекс.Метрику для работы сайта и аналитики.
+        Продолжая использовать сайт, вы принимаете{" "}
+        <a href="/privacy">условия обработки персональных данных</a>
+      </p>
       <button className="button button--primary" onClick={() => {
-        localStorage.setItem("analytics-cookie-consent", "ok");
-        setVisible(false);
+        localStorage.setItem(analyticsConsentKey, "ok");
+        window.dispatchEvent(new Event(analyticsConsentEvent));
       }}>OK</button>
     </aside>
   );
