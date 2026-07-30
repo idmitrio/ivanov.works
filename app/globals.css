@@ -116,8 +116,8 @@ h3 { font-size: 26px; }
 .faq h2 { margin-bottom: 56px; }
 .faq-list { border-top: 1px solid var(--black); }
 .faq-item { border-bottom: 1px solid var(--black); }
-.faq-item button { width: 100%; min-height: 86px; padding: 20px 4px; border: 0; background: transparent; display: flex; justify-content: space-between; gap: 24px; align-items: center; text-align: left; font-size: 21px; font-weight: 600; cursor: pointer; }
-.faq-item button i { font-size: 30px; font-weight: 300; font-style: normal; }
+.faq-item button { width: 100%; min-height: 86px; padding: 20px 4px; border: 0; background: transparent; color: var(--black); -webkit-appearance: none; appearance: none; display: flex; justify-content: space-between; gap: 24px; align-items: center; text-align: left; font-size: 21px; font-weight: 600; cursor: pointer; }
+.faq-item button i { color: inherit; font-size: 30px; font-weight: 300; font-style: normal; }
 .faq-answer { max-width: 820px; padding: 0 0 28px; color: #474747; }
 .faq-answer p { margin: 0; }
 
