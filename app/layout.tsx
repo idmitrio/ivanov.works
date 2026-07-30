@@ -3,20 +3,33 @@ import "./globals.css";
 import YandexMetrika from "./yandex-metrika";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ivanov.works"),
   title: "Внедрение ИИ в бизнес-процессы — ИИ-студия Дмитрия Иванова",
   description:
-    "Создаем управляемые ИИ-решения для обработки документов, заявок, поддержки и внутренних баз знаний. Начинаем с одного процесса, проверяем качество и экономику на данных компании.",
+    "Проверим на одном процессе и ваших данных, справится ли ИИ с задачей, прежде чем разрабатывать и внедрять полноценное решение.",
   openGraph: {
-    title: "Сокращаем ручную работу в операционных процессах",
+    title: "Сокращаем ручную работу в процессах компании",
     description:
-      "ИИ-студия Дмитрия Иванова: начинаем с одного процесса и проверяем качество и экономику решения на данных компании.",
+      "Проверим на одном процессе и ваших данных, справится ли ИИ с задачей, прежде чем разрабатывать и внедрять полноценное решение.",
     type: "website",
     locale: "ru_RU",
+    siteName: "ИИ-студия Дмитрия Иванова",
+    url: "https://ivanov.works",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Логотип ИИ-студии Дмитрия Иванова",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Сокращаем ручную работу в операционных процессах",
-    description: "ИИ-студия Дмитрия Иванова",
+    title: "Сокращаем ручную работу в процессах компании",
+    description:
+      "Проверим на одном процессе и ваших данных, справится ли ИИ с задачей, прежде чем разрабатывать и внедрять полноценное решение.",
+    images: ["/og.png"],
   },
 };
 
@@ -31,8 +44,6 @@ export default function RootLayout({
         <link rel="icon" href="/favicon-96x96.png" sizes="96x96" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta property="og:image" content="/og.png" />
-        <meta name="twitter:image" content="/og.png" />
       </head>
       <body>
         {children}
