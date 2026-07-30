@@ -34,28 +34,28 @@ const solutions = [
     input: "Счета, акты, договоры, заявки, накладные, сканы и письма.",
     system:
       "ИИ извлекает нужные данные и сверяет их с заказом, договором, 1С или ERP. Нашел расхождение или не уверен в результате — передает документ сотруднику на проверку.",
-    result: "Сотрудник не тратит время на проверку каждого документа.",
+    result: "Экономия времени на проверке и обработке документов.",
   },
   {
     title: "Заявки и обращения",
     input: "Письма, формы с сайта, сообщения из мессенджеров и обращения в CRM.",
     system:
       "ИИ определяет, с чем обратился клиент, собирает данные и направляет заявку нужному сотруднику. Если информации не хватает, запрашивает уточнение.",
-    result: "Заявки автоматически попадают к нужным сотрудникам.",
+    result: "Заявки автоматически попадают к нужным людям.",
   },
   {
     title: "Поддержка сотрудников и клиентов",
     input: "Типовые вопросы, регламенты и история обращения.",
     system:
       "ИИ готовит ответ по регламентам и истории обращения. Команда быстрее отвечает на типовые вопросы, а сложные случаи сразу передает специалисту.",
-    result: "Повторяющиеся вопросы не отвлекают опытных сотрудников.",
+    result: "Опытные специалисты подключаются только к сложным вопросам.",
   },
   {
     title: "Поиск по базе знаний",
     input: "Регламенты, инструкции, договоры и проектная документация.",
     system:
       "Помощник находит ответ и показывает источник. Если в документах ответа нет, так и говорит, а не пытается его придумать.",
-    result: "Сотрудники быстрее находят ответы в документах компании.",
+    result: "На поиск ответа в документах компании уходит меньше времени.",
   },
   {
     title: "Аналитика и контроль показателей",
@@ -433,17 +433,17 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
             <p className="modal-lead">Оставьте контакты, мы свяжемся с вами в ближайшее время</p>
             <label>
               <span>Ваше имя <b>*</b></span>
-              <input placeholder="Дмитрий Иванов" value={name} onChange={(e) => { setName(e.target.value); clearError("name"); }} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} />
+              <input placeholder="Константин Константинопольский" value={name} onChange={(e) => { setName(e.target.value); clearError("name"); }} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} />
               {errors.name && <small className="field-error" id="name-error">ⓘ {errors.name}</small>}
             </label>
             <label>
               <span>Email или Telegram <b>*</b></span>
-              <input placeholder="@dmitrio или dmitry@example.com" value={contact} onChange={(e) => { setContact(e.target.value); clearError("contact"); }} aria-invalid={Boolean(errors.contact)} aria-describedby={errors.contact ? "contact-error" : undefined} />
+              <input placeholder="kostya@konstantinopolis.ru или @kostya" value={contact} onChange={(e) => { setContact(e.target.value); clearError("contact"); }} aria-invalid={Boolean(errors.contact)} aria-describedby={errors.contact ? "contact-error" : undefined} />
               {errors.contact && <small className="field-error" id="contact-error">ⓘ {errors.contact}</small>}
             </label>
             <label>
               <span>Компания</span>
-              <input placeholder="Название компании" value={company} onChange={(e) => setCompany(e.target.value)} />
+              <input placeholder="ООО «Константа»" value={company} onChange={(e) => setCompany(e.target.value)} />
             </label>
             <label>
               <span>Сообщение</span>
@@ -536,8 +536,8 @@ export default function Home() {
           <div className="container hero-grid">
             <div className="hero-copy">
               <p className="eyebrow">ПЕРСОНАЛЬНАЯ ИНЖЕНЕРНАЯ ИИ-СТУДИЯ</p>
-              <h1>Сокращаем ручную работу в операционных процессах</h1>
-              <p className="hero-lead">Берем один процесс, проверяем ИИ-решение на ваших данных и внедряем его, только если проверка подтверждает качество и экономический смысл.</p>
+              <h1>Сокращаем ручную работу в процессах компании</h1>
+              <p className="hero-lead">Проверим на одном процессе и ваших данных, справится ли ИИ с задачей, прежде чем разрабатывать и внедрять полноценное решение.</p>
               <button className="button button--primary hero-cta" onClick={openForm}>Обсудить процесс</button>
               <DirectLinks />
             </div>
@@ -551,7 +551,7 @@ export default function Home() {
             <p className="section-kicker">РЕШЕНИЯ</p>
             <div className="section-heading-row">
               <h2>Где можно сократить ручную работу</h2>
-              <p>Выберите знакомую задачу и посмотрите, что изменится в работе команды после внедрения.</p>
+              <p>Пять типовых задач, в которых можно сократить ручную работу.</p>
             </div>
             <div className="solutions-benefit-desktop">
               <div className="solution-benefit-nav" aria-label="Сценарии автоматизации">
