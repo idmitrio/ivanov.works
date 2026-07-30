@@ -8,7 +8,10 @@ type ContactPayload = {
   contact?: unknown;
   company?: unknown;
   message?: unknown;
+  consent?: unknown;
 };
+
+const privacyPolicyVersion = "30.07.2026";
 
 function text(value: unknown, maxLength: number) {
   return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
@@ -33,10 +36,11 @@ export async function POST(request: Request) {
   const contact = text(payload.contact, 200);
   const company = text(payload.company, 200);
   const message = text(payload.message, 2000);
+  const consent = payload.consent === true;
 
-  if (!name || !contact) {
+  if (!name || !contact || !consent) {
     return NextResponse.json(
-      { error: "Name and contact are required" },
+      { error: "Name, contact and consent are required" },
       { status: 400 },
     );
   }
@@ -69,6 +73,7 @@ export async function POST(request: Request) {
     `<b>Контакт:</b> ${escapeHtml(contact)}`,
     company ? `<b>Компания:</b> ${escapeHtml(company)}` : "",
     message ? `<b>Сообщение:</b>\n${escapeHtml(message)}` : "",
+    `<b>Согласие:</b> получено, политика от ${privacyPolicyVersion}`,
   ].filter(Boolean);
 
   const telegramPayload: Record<string, string | number> = {

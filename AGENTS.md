@@ -59,7 +59,7 @@
 - The process section must keep four stages without separate “control point” blocks.
 - The founder section must remain personal and evidence-based. Keep it as the main text column without a separate logo/name card.
 - `/case-template` is a future-case structure only. Do not surface a case on the main site until its company, result, and metrics are real and confirmed.
-- `/privacy` remains an adaptive template with the explicit placeholder for approved policy text. Never invent legal text or operator details.
+- `/privacy` contains the published personal-data policy. Keep its operator details, form-data categories, analytics disclosure, consent behavior, and actual site integrations synchronized with the implementation; legal changes require source verification and lawyer-review notes.
 - Keep the metadata title and description aligned with managed AI solutions for documents, requests, support, and internal knowledge bases.
 
 ## Form and Accessibility Contract

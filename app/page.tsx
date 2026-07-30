@@ -17,9 +17,9 @@ const yandexMetrikaId = 109276483;
 declare global {
   interface Window {
     ym?: (
-      counterId: number,
-      method: "reachGoal",
-      goal: "IW_FEEDBACK_OPEN" | "IW_FEEDBACK_SEND",
+      id: number,
+      method: string,
+      goalOrOptions?: string | Record<string, unknown>,
     ) => void;
   }
 }
@@ -393,7 +393,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, contact, company, message }),
+        body: JSON.stringify({ name, contact, company, message, consent }),
       });
       if (!response.ok) throw new Error("Contact request failed");
       reachGoal("IW_FEEDBACK_SEND");
