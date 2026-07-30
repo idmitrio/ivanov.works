@@ -543,7 +543,6 @@ export default function Home() {
             </div>
             <img className="hero-mark" src="/brand/ivanov-ai-sign-inv.svg" alt="" />
           </div>
-          <div className="hero-meta"><span>ПРОЦЕСС</span><span>ДАННЫЕ</span><span>ПРОВЕРКА</span><span>РЕШЕНИЕ</span></div>
         </section>
 
         <section className="section solutions" id="solutions">
