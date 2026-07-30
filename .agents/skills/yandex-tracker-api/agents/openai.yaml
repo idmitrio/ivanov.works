@@ -1,0 +1,4 @@
+interface:
+  display_name: "Yandex Tracker API"
+  short_description: "Use the direct Yandex Tracker REST API through the local helper script."
+  default_prompt: "Use this skill when working with Yandex Tracker through the direct REST API. Prefer the local helper script for authenticated requests, issue search, issue updates, comments, links, components, and attachments. The helper disables TLS verification by default in this workspace; use --verify-tls only when explicitly validating certificates."

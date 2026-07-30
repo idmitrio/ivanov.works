@@ -1,0 +1,4 @@
+interface:
+  display_name: "Yandex Tracker Task Workflow"
+  short_description: "Run Yandex Tracker issues through branch, commit, review, PR, and status workflows."
+  default_prompt: "Use this skill when a repository task must be implemented from a Yandex Tracker issue key, coordinating Tracker status/comments/checklists with branch, commit, test, and PR workflows."

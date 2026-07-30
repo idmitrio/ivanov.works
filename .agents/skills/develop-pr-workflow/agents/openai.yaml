@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop PR Workflow"
+  short_description: "Prepare reviewed feature or fix PRs into develop."
+  default_prompt: "Use this skill to refresh develop, update the current feature or fix branch, run supported tests and overlay-aware review, push it, and open a PR into develop."

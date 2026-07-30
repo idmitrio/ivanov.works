@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "managed_by": "codex-shared-skills",
+  "source": "git@github.com:idmitrio/codex-shared-skills.git",
+  "ref": "master",
+  "commit": "c004685b1783502cb4ea479be826b24a4ab2f757",
+  "skill": "changelog-workflow"
+}

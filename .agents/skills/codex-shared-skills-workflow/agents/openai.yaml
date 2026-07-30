@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Shared Skills Workflow"
+  short_description: "Synchronize managed skills with the declarative updater."
+  default_prompt: "Use this skill to preview, apply, validate, and verify shared-skill synchronization while preserving unmanaged local skills and overlays."

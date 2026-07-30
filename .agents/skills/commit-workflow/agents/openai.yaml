@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commit Workflow"
+  short_description: "Create focused commits using local stage rules and Conventional Commits."
+  default_prompt: "Use this skill to prepare and create a focused commit, follow the repository's stage approval rules, and write a Conventional Commit message with the appropriate type and scope."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "SF Settings Workflow"
+  short_description: "Add and expose repository settings."
+  default_prompt: "Use this skill to add a new setting through a seed migration, SettingsService formatting and save behavior, DbSettings accessors, and the relevant panel settings template."

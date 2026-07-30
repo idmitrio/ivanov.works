@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repository Skill Creator"
+  short_description: "Apply repository ownership and validation rules to skills."
+  default_prompt: "Use this skill to create or update a shared, unmanaged local, or overlay skill under .agents/skills while preserving ownership markers and repository metadata."
