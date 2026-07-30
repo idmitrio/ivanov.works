@@ -536,8 +536,8 @@ export default function Home() {
           <div className="container hero-grid">
             <div className="hero-copy">
               <p className="eyebrow">ПЕРСОНАЛЬНАЯ ИНЖЕНЕРНАЯ ИИ-СТУДИЯ</p>
-              <h1>Сокращаем ручную работу в операционных процессах</h1>
-              <p className="hero-lead">Берем один процесс, проверяем ИИ-решение на ваших данных и внедряем его, только если проверка подтверждает качество и экономический смысл.</p>
+              <h1>Сокращаем ручную работу в процессах компании</h1>
+              <p className="hero-lead">Проверим на одном процессе и ваших данных, справится ли ИИ с задачей, прежде чем разрабатывать и внедрять полноценное решение.</p>
               <button className="button button--primary hero-cta" onClick={openForm}>Обсудить процесс</button>
               <DirectLinks />
             </div>
