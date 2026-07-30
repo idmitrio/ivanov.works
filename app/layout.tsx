@@ -7,9 +7,15 @@ export const metadata: Metadata = {
   description:
     "Создаем управляемые ИИ-решения для обработки документов, заявок, поддержки и внутренних баз знаний. Начинаем с одного процесса, проверяем качество и экономику на данных компании.",
   icons: {
-    icon: "/brand/ivanov-ai-logo.svg",
-    shortcut: "/brand/ivanov-ai-logo.svg",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+    shortcut: "/favicon.ico",
   },
+  manifest: "/site.webmanifest",
   openGraph: {
     title: "Сокращаем ручную работу в операционных процессах",
     description:

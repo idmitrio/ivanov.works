@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 const telegram = "https://t.me/dmitrio";
 const maxLink =
@@ -13,6 +13,8 @@ const solutions = [
     input: "Счета, акты, договоры, заявки, накладные, сканы и письма.",
     system:
       "ИИ извлекает нужные данные и сверяет их с заказом, договором, 1С или ERP. Нашел расхождение или не уверен в результате — передает документ сотруднику на проверку.",
+    employee:
+      "Проверить отмеченные расхождения, при необходимости исправить данные и подтвердить результат.",
     result:
       "Вручную остается разбирать только спорные случаи, а не каждый документ целиком.",
   },
@@ -21,6 +23,8 @@ const solutions = [
     input: "Письма, формы с сайта, сообщения из мессенджеров и обращения в CRM.",
     system:
       "ИИ определяет, с чем обратился клиент, собирает данные и направляет заявку нужному сотруднику. Если информации не хватает, запрашивает уточнение.",
+    employee:
+      "Ответить на нестандартный запрос или подключиться, если данных для решения недостаточно.",
     result: "Команде не приходится вручную сортировать весь входящий поток.",
   },
   {
@@ -28,6 +32,8 @@ const solutions = [
     input: "Типовые вопросы, регламенты и история обращения.",
     system:
       "ИИ готовит ответ по регламентам и истории обращения. Команда быстрее отвечает на типовые вопросы, а сложные случаи сразу передает специалисту.",
+    employee:
+      "Разобрать сложный случай и подтвердить ответ, когда требуется экспертное решение.",
     result: "Опытные сотрудники меньше отвлекаются на одни и те же вопросы.",
   },
   {
@@ -35,6 +41,8 @@ const solutions = [
     input: "Регламенты, инструкции, договоры и проектная документация.",
     system:
       "Помощник находит ответ и показывает источник. Если в документах ответа нет, так и говорит, а не пытается его придумать.",
+    employee:
+      "Проверить источник и принять решение, если готового ответа в базе знаний нет.",
     result:
       "Сотрудники быстрее находят нужную информацию и реже идут с вопросами к коллегам.",
   },
@@ -43,6 +51,8 @@ const solutions = [
     input: "Данные из таблиц, CRM, ERP и других рабочих систем.",
     system:
       "ИИ анализирует данные по заданным правилам: готовит сводки, сравнивает периоды и показывает отклонения.",
+    employee:
+      "Разобрать отмеченные отклонения и принять управленческое решение.",
     result:
       "Руководителю не приходится вручную сводить данные, чтобы понять, где требуется внимание.",
   },
@@ -114,18 +124,13 @@ function DirectLinks({ compact = false }: { compact?: boolean }) {
       <i>·</i>
       <a href={maxLink} target="_blank" rel="noreferrer">MAX</a>
       <i>·</i>
-      <a href={email}>{compact ? "Почта" : "Почта"}</a>
+      <a href={email}>dmitry@ivanov.works</a>
     </p>
   );
 }
 
 function CookieNotice({ enabled }: { enabled: boolean }) {
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    if (enabled && localStorage.getItem("analytics-cookie-consent") !== "ok") {
-      setVisible(true);
-    }
-  }, [enabled]);
+  const [visible, setVisible] = useState(enabled);
   if (!visible) return null;
   return (
     <aside className="cookie-notice" aria-label="Уведомление о cookie">
@@ -197,7 +202,7 @@ function Menu({
       <div className="menu-links">
         <a href={telegram} target="_blank" rel="noreferrer">Telegram <span>↗</span></a>
         <a href={maxLink} target="_blank" rel="noreferrer">MAX <span>↗</span></a>
-        <a href={email}>Почта <span>↗</span></a>
+        <a href={email}>dmitry@ivanov.works <span>↗</span></a>
       </div>
     </div>
   );
@@ -216,6 +221,8 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
   const [status, setStatus] = useState<FormStatus>("form");
   const [confirmClose, setConfirmClose] = useState(false);
   const dirty = Boolean(name || contact || company || message || consent);
+  const stateRef = useRef({ dirty, confirmClose, status });
+  const onCloseRef = useRef(onClose);
   const clearError = (field: string) =>
     setErrors((current) => {
       if (!current[field]) return current;
@@ -224,10 +231,37 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
       return next;
     });
 
-  const closeRequest = () => {
-    if (status === "success" || !dirty) onClose();
-    else setConfirmClose(true);
+  const resetForm = () => {
+    setName("");
+    setContact("");
+    setCompany("");
+    setMessage("");
+    setConsent(false);
+    setErrors({});
+    setStatus("form");
+    setConfirmClose(false);
   };
+
+  const discardAndClose = () => {
+    resetForm();
+    onCloseRef.current();
+  };
+
+  const closeRequest = () => {
+    const current = stateRef.current;
+    if (current.status === "success") discardAndClose();
+    else if (!current.dirty) {
+      setConfirmClose(false);
+      onCloseRef.current();
+    } else setConfirmClose(true);
+  };
+  const closeRequestRef = useRef(closeRequest);
+
+  useEffect(() => {
+    stateRef.current = { dirty, confirmClose, status };
+    onCloseRef.current = onClose;
+    closeRequestRef.current = closeRequest;
+  });
 
   useEffect(() => {
     if (!open) return;
@@ -239,8 +273,8 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
     const key = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
-        if (confirmClose) setConfirmClose(false);
-        else closeRequest();
+        if (stateRef.current.confirmClose) setConfirmClose(false);
+        else closeRequestRef.current();
       }
       if (e.key === "Tab" && dialog.current) {
         const items = Array.from(
@@ -265,11 +299,11 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
       document.body.classList.remove("locked");
       previous?.focus();
     };
-  });
+  }, [open]);
 
   if (!open) return null;
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     const next: Record<string, string> = {};
     if (!name.trim()) next.name = "Укажите имя";
@@ -288,9 +322,17 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
       return;
     }
     setStatus("sending");
-    window.setTimeout(() => {
-      setStatus(navigator.onLine ? "success" : "error");
-    }, 900);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, contact, company, message }),
+      });
+      if (!response.ok) throw new Error("Contact request failed");
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -323,21 +365,21 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
             <p className="modal-lead">Оставьте контакты, мы свяжемся с вами в ближайшее время</p>
             <label>
               <span>Ваше имя <b>*</b></span>
-              <input value={name} onChange={(e) => { setName(e.target.value); clearError("name"); }} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} />
+              <input placeholder="Дмитрий Иванов" value={name} onChange={(e) => { setName(e.target.value); clearError("name"); }} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} />
               {errors.name && <small className="field-error" id="name-error">ⓘ {errors.name}</small>}
             </label>
             <label>
               <span>Email или Telegram <b>*</b></span>
-              <input value={contact} onChange={(e) => { setContact(e.target.value); clearError("contact"); }} aria-invalid={Boolean(errors.contact)} aria-describedby={errors.contact ? "contact-error" : undefined} />
+              <input placeholder="@dmitrio или dmitry@example.com" value={contact} onChange={(e) => { setContact(e.target.value); clearError("contact"); }} aria-invalid={Boolean(errors.contact)} aria-describedby={errors.contact ? "contact-error" : undefined} />
               {errors.contact && <small className="field-error" id="contact-error">ⓘ {errors.contact}</small>}
             </label>
             <label>
               <span>Компания</span>
-              <input value={company} onChange={(e) => setCompany(e.target.value)} />
+              <input placeholder="Название компании" value={company} onChange={(e) => setCompany(e.target.value)} />
             </label>
             <label>
               <span>Сообщение</span>
-              <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={3} />
+              <textarea placeholder="Коротко опишите процесс и где возникает ручная работа" value={message} onChange={(e) => setMessage(e.target.value)} rows={3} />
             </label>
             <label className="check-row">
               <input type="checkbox" checked={consent} onChange={(e) => { setConsent(e.target.checked); clearError("consent"); }} aria-invalid={Boolean(errors.consent)} />
@@ -359,7 +401,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
               <p>Введённые данные не сохранятся.</p>
               <div className="confirm-actions">
                 <button className="button button--outline" onClick={() => setConfirmClose(false)}>Продолжить заполнение</button>
-                <button className="button button--primary" onClick={onClose}>Закрыть без отправки</button>
+                <button className="button button--primary" onClick={discardAndClose}>Закрыть без отправки</button>
               </div>
             </div>
           </div>
@@ -405,7 +447,8 @@ export default function Home() {
     <>
       <header className={`site-header ${compactHeader ? "site-header--compact" : ""}`}>
         <a href="#top" className="brand-link" aria-label="На главную">
-          <img src="/brand/ivanov-ai-logo-inv.svg" alt="ИИ-студия Дмитрия Иванова" />
+          <img className="brand-full" src="/brand/ivanov-ai-logo-inv.svg" alt="ИИ-студия Дмитрия Иванова" />
+          <img className="brand-sign" src="/brand/ivanov-ai-sign-inv.svg" alt="" />
         </a>
         <nav className="desktop-nav" aria-label="Основная навигация">
           <a className={active === "solutions" ? "active" : ""} href="#solutions">Решения</a>
@@ -427,17 +470,14 @@ export default function Home() {
               <button className="button button--primary hero-cta" onClick={openForm}>Обсудить процесс</button>
               <DirectLinks />
             </div>
-            <div className="hero-mark" aria-hidden="true">
-              <span />
-              <span className="mark-second" />
-            </div>
+            <img className="hero-mark" src="/brand/ivanov-ai-sign-inv.svg" alt="" />
           </div>
           <div className="hero-meta"><span>ПРОЦЕСС</span><span>ДАННЫЕ</span><span>ПРОВЕРКА</span><span>РЕШЕНИЕ</span></div>
         </section>
 
         <section className="section solutions" id="solutions">
           <div className="container">
-            <p className="section-kicker">01 / РЕШЕНИЯ</p>
+            <p className="section-kicker">РЕШЕНИЯ</p>
             <div className="section-heading-row">
               <h2>Где можно сократить ручную работу</h2>
               <p>Система обрабатывает типовой поток. Сотруднику передаёт случаи, где нужна проверка или решение.</p>
@@ -448,28 +488,29 @@ export default function Home() {
                 return (
                   <article className={`solution ${isOpen ? "solution--open" : ""}`} key={item.title}>
                     <button className="solution-head" onClick={() => setOpenSolution(index)} aria-expanded={isOpen}>
-                      <span className="solution-number">{String(index + 1).padStart(2, "0")}</span>
                       <span>{item.title}</span>
                       <i aria-hidden="true">{isOpen ? "−" : "+"}</i>
                     </button>
                     {isOpen && (
                       <div className="solution-body">
-                        <div className="flow-card">
-                          <span className="flow-label">ВХОД</span>
-                          <strong>Что поступает</strong>
+                        <div className="solution-column">
+                          <span className="solution-icon" aria-hidden="true">▤</span>
+                          <strong>Вход</strong>
                           <p>{item.input}</p>
                         </div>
-                        <span className="flow-arrow">→</span>
-                        <div className="flow-card flow-card--system">
-                          <span className="flow-label">СИСТЕМА</span>
-                          <strong>Обработка и проверка</strong>
+                        <div className="solution-column">
+                          <span className="solution-icon" aria-hidden="true">▦</span>
+                          <strong>Что делает система</strong>
                           <p>{item.system}</p>
-                          <div className="branch"><span>✓ Обработано автоматически</span><span>→ Передано сотруднику</span></div>
                         </div>
-                        <span className="flow-arrow">→</span>
-                        <div className="flow-card">
-                          <span className="flow-label">РЕЗУЛЬТАТ</span>
-                          <strong>Что меняется</strong>
+                        <div className="solution-column">
+                          <span className="solution-icon" aria-hidden="true">♙</span>
+                          <strong>Сотруднику</strong>
+                          <p>{item.employee}</p>
+                        </div>
+                        <div className="solution-column">
+                          <span className="solution-icon" aria-hidden="true">◇</span>
+                          <strong>Результат</strong>
                           <p>{item.result}</p>
                         </div>
                       </div>
@@ -484,7 +525,7 @@ export default function Home() {
 
         <section className="section process" id="process">
           <div className="container">
-            <p className="section-kicker">02 / ПРОЦЕСС</p>
+            <p className="section-kicker">ПРОЦЕСС</p>
             <div className="section-heading-row">
               <h2>Как мы работаем</h2>
               <p>Начинаем с одного процесса. После каждого этапа решаем, есть ли смысл двигаться дальше.</p>
@@ -492,15 +533,12 @@ export default function Home() {
             <div className="timeline">
               {steps.map((step, index) => (
                 <div className="timeline-item" key={step.title}>
-                  <div className="timeline-number">{String(index + 1).padStart(2, "0")}</div>
+                  <div className="timeline-number">{index + 1}</div>
                   <div className="timeline-content">
                     <h3>{step.title}</h3>
                     <p>{step.body}</p>
                     <div className="deliverable"><span>Что получаете</span>{step.result}</div>
                   </div>
-                  {index < steps.length - 1 && (
-                    <div className="checkpoint"><span>КОНТРОЛЬНАЯ ТОЧКА</span>Решение: продолжить, изменить подход или остановиться</div>
-                  )}
                 </div>
               ))}
             </div>
@@ -510,7 +548,7 @@ export default function Home() {
 
         <section className="section about" id="about">
           <div className="container">
-            <p className="section-kicker">03 / О СТУДИИ</p>
+            <p className="section-kicker">О СТУДИИ</p>
             <div className="about-grid">
               <div>
                 <h2>Лично веду проект от первого обсуждения до запуска</h2>
@@ -522,17 +560,13 @@ export default function Home() {
                   <p>Я лично веду проект от первого обсуждения до запуска и отвечаю за его реализацию. Для меня результат — это работающий инструмент, которым пользуются сотрудники и который приносит бизнесу измеримую пользу.</p>
                 </div>
               </div>
-              <div className="about-visual">
-                <img src="/brand/ivanov-ai-logo.svg" alt="" />
-                <p>ДМИТРИЙ ИВАНОВ<br /><span>ОСНОВАТЕЛЬ И ТЕХНИЧЕСКИЙ РУКОВОДИТЕЛЬ</span></p>
-              </div>
             </div>
           </div>
         </section>
 
         <section className="section faq" id="faq">
           <div className="container">
-            <p className="section-kicker">04 / FAQ</p>
+            <p className="section-kicker">FAQ</p>
             <h2>Ответы на вопросы</h2>
             <div className="faq-list">
               {faqs.map(([question, answer], index) => {
@@ -553,12 +587,12 @@ export default function Home() {
         <section className="final-cta">
           <div className="container final-grid">
             <div>
-              <p className="section-kicker section-kicker--dark">05 / СЛЕДУЮЩИЙ ШАГ</p>
+              <p className="section-kicker section-kicker--dark">СЛЕДУЮЩИЙ ШАГ</p>
               <h2>Разберем ваш процесс и поймем, есть ли в нем задача для ИИ</h2>
               <button className="button button--primary" onClick={openForm}>Обсудить процесс</button>
               <DirectLinks />
             </div>
-            <div className="hero-mark hero-mark--small" aria-hidden="true"><span /><span className="mark-second" /></div>
+            <img className="hero-mark hero-mark--small" src="/brand/ivanov-ai-sign-inv.svg" alt="" />
           </div>
         </section>
       </main>
@@ -567,7 +601,7 @@ export default function Home() {
         <div className="container footer-grid">
           <div><img src="/brand/ivanov-ai-logo-black.svg" alt="ИИ-студия Дмитрия Иванова" /><p>© ИИ-студия Дмитрия Иванова</p></div>
           <nav><a href="#solutions">Решения</a><a href="#process">Как работаем</a><a href="#about">О студии</a><a href="#faq">Ответы на вопросы</a></nav>
-          <nav><a href={telegram}>Telegram</a><a href={maxLink}>MAX</a><a href={email}>Почта</a><a href="/privacy">Политика обработки персональных данных</a></nav>
+          <nav><a href={telegram}>Telegram</a><a href={maxLink}>MAX</a><a href={email}>dmitry@ivanov.works</a><a href="/privacy">Политика обработки персональных данных</a></nav>
         </div>
       </footer>
       <Menu open={menu} onClose={() => setMenu(false)} onForm={openForm} />
