@@ -8,13 +8,10 @@
     "agents-md-creator",
     "commit-workflow",
     "develop-pr-workflow",
-    "git-branch-workflow",
     "readme-creator",
     "release-workflow",
     "repo-skill-creator",
-    "review-workflow",
-    "yandex-tracker-api",
-    "yandex-tracker-task-workflow"
+    "review-workflow"
   ],
   "resolved": [
     "codex-shared-skills-workflow",
@@ -22,14 +19,9 @@
     "commit-workflow",
     "review-workflow",
     "develop-pr-workflow",
-    "git-branch-workflow",
     "readme-creator",
     "changelog-workflow",
     "release-workflow",
-    "repo-skill-creator",
-    "yandex-tracker-api",
-    "sf-migration-workflow",
-    "sf-settings-workflow",
-    "yandex-tracker-task-workflow"
+    "repo-skill-creator"
   ]
 }
