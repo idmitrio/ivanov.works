@@ -203,7 +203,7 @@ function SolutionBenefitPanel({
         <p>{item.input}</p>
       </div>
       <div className="solution-benefit-proof">
-        <strong>За счёт чего</strong>
+        <strong>За счет чего</strong>
         <p>{item.system}</p>
       </div>
     </div>
@@ -422,9 +422,9 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
           <div className="result-state">
             <span className="result-icon result-icon--error">!</span>
             <h2>Не получилось отправить заявку</h2>
-            <p>Проверьте соединение и попробуйте ещё раз. Если ошибка повторится, напишите напрямую.</p>
+            <p>Проверьте соединение и попробуйте еще раз. Если ошибка повторится, напишите напрямую.</p>
             <button className="button button--primary button--wide" onClick={() => setStatus("form")}>
-              Попробовать ещё раз
+              Попробовать еще раз
             </button>
             <p className="direct"><a href={telegram}>Telegram</a> · <a href={maxLink}>MAX</a> · <a href={email}>dmitry@ivanov.works</a></p>
           </div>
@@ -466,7 +466,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
             <div className="confirm-card">
               <span className="warning">!</span>
               <h3 id="confirm-title">Закрыть без отправки?</h3>
-              <p>Введённые данные не сохранятся.</p>
+              <p>Введенные данные не сохранятся.</p>
               <div className="confirm-actions">
                 <button className="button button--outline" onClick={() => setConfirmClose(false)}>Продолжить заполнение</button>
                 <button className="button button--primary" onClick={discardAndClose}>Закрыть без отправки</button>
@@ -538,7 +538,13 @@ export default function Home() {
               <p className="eyebrow">ПЕРСОНАЛЬНАЯ ИНЖЕНЕРНАЯ ИИ-СТУДИЯ</p>
               <h1>Сокращаем ручную работу в процессах компании</h1>
               <p className="hero-lead">Проверим на одном процессе и ваших данных, справится ли ИИ с задачей, прежде чем разрабатывать и внедрять полноценное решение.</p>
-              <button className="button button--primary hero-cta" onClick={openForm}>Обсудить процесс</button>
+              <div className="hero-actions">
+                <button className="button button--primary hero-cta" onClick={openForm}>Обсудить процесс</button>
+                <a className="hero-presentation-link" href="/ivanov-ai-presentation.pdf" download>
+                  <span className="hero-presentation-label">Скачать презентацию</span>
+                  <span className="hero-presentation-icon" aria-hidden="true">↓</span>
+                </a>
+              </div>
               <DirectLinks />
             </div>
             <img className="hero-mark" src="/brand/ivanov-ai-sign-inv.svg" alt="" />

@@ -5,13 +5,11 @@
     "codex-shared-skills-workflow",
     "agents-md-creator",
     "commit-workflow",
-    "develop-pr-workflow",
-    "git-branch-workflow",
     "readme-creator",
     "release-workflow",
-    "repo-skill-creator",
-    "review-workflow",
-    "yandex-tracker-api",
-    "yandex-tracker-task-workflow"
-  ]
+    "repo-skill-creator"
+  ],
+  "local_overrides": {
+    "release-workflow": ".agents/skills/ivanov-works-release-workflow/SKILL.md"
+  }
 }

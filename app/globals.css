@@ -66,7 +66,11 @@ h3 { font-size: 26px; }
 .eyebrow { font-family: var(--display); font-size: 13px; letter-spacing: .15em; color: var(--yellow); margin: 0 0 26px; }
 .hero h1 { max-width: 860px; margin-bottom: 34px; }
 .hero-lead { max-width: 680px; font-size: 21px; line-height: 1.55; color: #d5dbe6; margin: 0 0 36px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: center; }
 .hero-cta { min-width: 250px; font-size: 18px; }
+.hero-presentation-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--white); font-weight: 600; text-decoration: none; }
+.hero-presentation-label { text-decoration: underline; text-underline-offset: 5px; }
+.hero-presentation-icon { color: var(--yellow); font-size: 20px; line-height: 1; }
 .direct { margin: 22px 0 0; color: #c7ceda; font-size: 15px; }
 .direct a { color: inherit; text-underline-offset: 4px; }
 .direct i { font-style: normal; color: var(--yellow); padding: 0 8px; }
@@ -225,7 +229,9 @@ footer { padding: 56px 0 36px; background: var(--warm); border-top: 1px solid va
   .hero h1 { max-width: 345px; margin-bottom: 24px; }
   .eyebrow { font-size: 10px; margin-bottom: 18px; }
   .hero-lead { max-width: 345px; font-size: 16px; line-height: 1.5; margin-bottom: 28px; }
+  .hero-actions { align-items: flex-start; gap: 10px 18px; }
   .hero-cta { min-width: 208px; min-height: 48px; font-size: 15px; }
+  .hero-presentation-link { font-size: 14px; }
   .direct { font-size: 12px; }
   .hero .direct span { display: none; }
   .hero .direct { display: flex; flex-wrap: wrap; gap: 8px; }

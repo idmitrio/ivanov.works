@@ -37,8 +37,8 @@ export default function CaseTemplate() {
           <p>[Опишите, что изменилось после внедрения решения. Какие эффекты для процесса, команды или бизнеса.]</p>
           <aside className="verified">▣ &nbsp; Публиковать только после подтверждения данных</aside>
           <h2>Показатели: было / стало</h2>
-          <table><thead><tr><th>Показатель</th><th>Было</th><th>Стало</th></tr></thead><tbody>{Array.from({length: 4}).map((_, i) => <tr key={i}><td>[Подтверждённый показатель]</td><td>[Значение]</td><td>[Значение]</td></tr>)}</tbody></table>
-          <p className="case-source">ⓘ Источник данных: [документ / отчёт / система]</p>
+          <table><thead><tr><th>Показатель</th><th>Было</th><th>Стало</th></tr></thead><tbody>{Array.from({length: 4}).map((_, i) => <tr key={i}><td>[Подтвержденный показатель]</td><td>[Значение]</td><td>[Значение]</td></tr>)}</tbody></table>
+          <p className="case-source">ⓘ Источник данных: [документ / отчет / система]</p>
         </section>
         <section className="case-three">
           <div><h2>Ограничения решения</h2><p>[Опишите границы применимости решения и известные ограничения.]</p></div>

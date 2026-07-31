@@ -1,4 +1,0 @@
-interface:
-  display_name: "Git Branch Workflow"
-  short_description: "Create feature and fix branches from updated develop."
-  default_prompt: "Use this skill to create a new feature or fix branch in this repository from updated develop and name it with the requested work item slug."
