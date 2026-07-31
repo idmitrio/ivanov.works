@@ -6,6 +6,10 @@
     "agents-md-creator",
     "commit-workflow",
     "readme-creator",
+    "release-workflow",
     "repo-skill-creator"
-  ]
+  ],
+  "local_overrides": {
+    "release-workflow": ".agents/skills/ivanov-works-release-workflow/SKILL.md"
+  }
 }

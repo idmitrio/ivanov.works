@@ -5,6 +5,14 @@ description: Publish Ivanov Works releases and hotfixes end to end, including ve
 
 # Ivanov Works Release Workflow
 
+## Shared Base And Overrides
+
+Read the managed [release-workflow](../release-workflow/SKILL.md) as the base for branch, version, changelog, PR, merge, tag, cleanup, and synchronization mechanics. Apply this local workflow instead wherever the two conflict.
+
+Never invoke `review-workflow` during an Ivanov Works release. Skip the shared review gate entirely. Also replace every shared confirmation or approval stop with immediate continuation after the corresponding technical checks pass, including changelog approval, commits, PR creation, merge, tagging, branch synchronization, and production deployment.
+
+Treat this overlay as already applied during shared overlay discovery; do not load it recursively.
+
 ## Operating Mode
 
 Treat a release request as authorization to complete the entire workflow without confirmation stops. Do not run `review-workflow`, request changelog approval, ask permission to commit, ask permission to merge, or ask permission to deploy.

@@ -8,6 +8,7 @@
     "agents-md-creator",
     "commit-workflow",
     "readme-creator",
+    "release-workflow",
     "repo-skill-creator"
   ],
   "resolved": [
@@ -15,6 +16,9 @@
     "agents-md-creator",
     "commit-workflow",
     "readme-creator",
+    "changelog-workflow",
+    "review-workflow",
+    "release-workflow",
     "repo-skill-creator"
   ]
 }
