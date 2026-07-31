@@ -7,21 +7,14 @@
     "codex-shared-skills-workflow",
     "agents-md-creator",
     "commit-workflow",
-    "develop-pr-workflow",
     "readme-creator",
-    "release-workflow",
-    "repo-skill-creator",
-    "review-workflow"
+    "repo-skill-creator"
   ],
   "resolved": [
     "codex-shared-skills-workflow",
     "agents-md-creator",
     "commit-workflow",
-    "review-workflow",
-    "develop-pr-workflow",
     "readme-creator",
-    "changelog-workflow",
-    "release-workflow",
     "repo-skill-creator"
   ]
 }

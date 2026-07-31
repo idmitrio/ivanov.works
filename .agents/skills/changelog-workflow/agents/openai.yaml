@@ -1,4 +1,0 @@
-interface:
-  display_name: "Changelog Workflow"
-  short_description: "Update changelogs while preserving existing project style."
-  default_prompt: "Use this skill to create, update, or review changelog entries by following the target repository's existing changelog format first, adding compare links when the file uses them, and using Keep a Changelog guidance only as a fallback quality check."

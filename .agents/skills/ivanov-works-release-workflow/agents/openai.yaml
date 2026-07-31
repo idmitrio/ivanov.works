@@ -1,4 +1,4 @@
 interface:
   display_name: "Ivanov Works Release Workflow"
-  short_description: "Release and deploy Ivanov Works to production."
-  default_prompt: "Use this skill to release Ivanov Works and deploy the merged master branch to production."
+  short_description: "Publish and deploy Ivanov Works end to end."
+  default_prompt: "Use this skill to publish the requested Ivanov Works version and deploy it to production without confirmation stops."
