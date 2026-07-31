@@ -10,5 +10,8 @@
     "release-workflow",
     "repo-skill-creator",
     "review-workflow"
-  ]
+  ],
+  "local_overrides": {
+    "release-workflow": ".agents/skills/ivanov-works-release-workflow/SKILL.md"
+  }
 }
