@@ -534,6 +534,7 @@ export default function Home() {
           <a className={active === "process" ? "active" : ""} href="#process">Как работаем</a>
           <a className={active === "about" ? "active" : ""} href="#about">О студии</a>
           <a className={active === "faq" ? "active" : ""} href="#faq">Ответы на вопросы</a>
+          <a href="#contacts">Контакты</a>
         </nav>
         <button className="button button--primary header-cta" onClick={openForm}>Обсудить процесс</button>
         <button className="icon-button mobile-menu-button" onClick={() => setMenu(true)} aria-label="Открыть меню"><span /><span /><span /></button>
@@ -681,7 +682,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer>
+      <footer id="contacts">
         <div className="container footer-grid">
           <div><img src="/brand/ivanov-ai-logo-black.svg" alt="ИИ-студия Дмитрия Иванова" /><p>© ИИ-студия Дмитрия Иванова</p></div>
           <nav><a href="#solutions">Решения</a><a href="#process">Как работаем</a><a href="#about">О студии</a><a href="#faq">Ответы на вопросы</a></nav>
