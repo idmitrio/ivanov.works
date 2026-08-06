@@ -95,6 +95,18 @@ const steps = [
 
 const faqs = [
   [
+    "Вы делаете ИИ-агентов или ассистентов?",
+    "Зависит от задачи. Иногда достаточно обычной автоматизации. В других случаях нужен ИИ-помощник, который готовит результат для сотрудника. Агент имеет смысл, когда системе действительно нужно самой выбирать следующие шаги и работать с несколькими инструментами. Сначала ищем самое простое решение, которое справится с задачей.",
+  ],
+  [
+    "Экономия времени означает экономию денег?",
+    "Не всегда. Если сотрудник освободил несколько часов, расходы компании сами по себе не снизились. На старте мы определяем, во что можно превратить это время: отказаться от переработок или подрядчика, не нанимать дополнительного человека, обработать больше заказов или снизить потери из-за ошибок.",
+  ],
+  [
+    "Придётся ли менять привычный порядок работы?",
+    "Иногда да, но только в той части, которую автоматизируем. Мы заранее определяем, что делает система, что остаётся сотруднику и в каких случаях нужна ручная проверка. Перестраивать работу всей компании не потребуется.",
+  ],
+  [
     "С какой задачи лучше начать?",
     "Лучше начать с ручной работы, которая регулярно повторяется и отнимает заметное время. При этом должно быть понятно, по каким правилам ее выполняют и сколько она стоит бизнесу.",
   ],
@@ -374,11 +386,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
     e.preventDefault();
     const next: Record<string, string> = {};
     if (!name.trim()) next.name = "Укажите имя";
-    if (
-      !contact.trim() ||
-      (!contact.includes("@") && !contact.startsWith("@") && !contact.startsWith("t.me/"))
-    )
-      next.contact = "Укажите корректный контакт";
+    if (!contact.trim()) next.contact = "Укажите корректный контакт";
     if (!consent)
       next.consent = "Нужно согласие на обработку персональных данных";
     setErrors(next);
@@ -437,8 +445,8 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
               {errors.name && <small className="field-error" id="name-error">ⓘ {errors.name}</small>}
             </label>
             <label>
-              <span>Email или Telegram <b>*</b></span>
-              <input placeholder="kostya@konstantinopolis.ru или @kostya" value={contact} onChange={(e) => { setContact(e.target.value); clearError("contact"); }} aria-invalid={Boolean(errors.contact)} aria-describedby={errors.contact ? "contact-error" : undefined} />
+              <span>Email или телефон <b>*</b></span>
+              <input placeholder="kostya@konstantinopolis.ru или +7 999 123-45-67" value={contact} onChange={(e) => { setContact(e.target.value); clearError("contact"); }} aria-invalid={Boolean(errors.contact)} aria-describedby={errors.contact ? "contact-error" : undefined} />
               {errors.contact && <small className="field-error" id="contact-error">ⓘ {errors.contact}</small>}
             </label>
             <label>
@@ -526,6 +534,7 @@ export default function Home() {
           <a className={active === "process" ? "active" : ""} href="#process">Как работаем</a>
           <a className={active === "about" ? "active" : ""} href="#about">О студии</a>
           <a className={active === "faq" ? "active" : ""} href="#faq">Ответы на вопросы</a>
+          <a href="#contacts">Контакты</a>
         </nav>
         <button className="button button--primary header-cta" onClick={openForm}>Обсудить процесс</button>
         <button className="icon-button mobile-menu-button" onClick={() => setMenu(true)} aria-label="Открыть меню"><span /><span /><span /></button>
@@ -673,7 +682,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer>
+      <footer id="contacts">
         <div className="container footer-grid">
           <div><img src="/brand/ivanov-ai-logo-black.svg" alt="ИИ-студия Дмитрия Иванова" /><p>© ИИ-студия Дмитрия Иванова</p></div>
           <nav><a href="#solutions">Решения</a><a href="#process">Как работаем</a><a href="#about">О студии</a><a href="#faq">Ответы на вопросы</a></nav>

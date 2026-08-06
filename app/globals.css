@@ -60,6 +60,15 @@ h3 { font-size: 26px; }
 .header-cta { justify-self: end; min-width: 210px; white-space: nowrap; }
 .mobile-menu-button { display: none; }
 
+@media (min-width: 981px) and (max-width: 1180px) {
+  .site-header { padding-inline: 24px; gap: 16px; }
+  .site-header:not(.site-header--compact) { grid-template-columns: 200px 1fr auto; }
+  .site-header:not(.site-header--compact) .brand-link { width: 200px; }
+  .desktop-nav { gap: 14px; }
+  .desktop-nav a { font-size: 14px; }
+  .header-cta { min-width: 190px; padding-inline: 20px; }
+}
+
 .hero { position: relative; min-height: 900px; padding-top: 104px; color: var(--white); background: var(--blue); overflow: hidden; }
 .hero::before { content: ""; position: absolute; inset: 0; opacity: .17; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 48px 48px; mask-image: linear-gradient(to bottom, #000, transparent); }
 .hero-grid { position: relative; min-height: 716px; padding: 104px 0 72px; display: grid; grid-template-columns: 7fr 5fr; gap: 48px; align-items: center; }
