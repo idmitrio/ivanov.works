@@ -54,7 +54,7 @@ export default function PrivacyPage() {
 
         <article className="legal-content">
           <h1>Политика обработки персональных данных</h1>
-          <p className="revision">Редакция от 30.07.2026</p>
+          <p className="revision">Редакция от 06.08.2026</p>
 
           <details className="legal-mobile-toc">
             <summary>Содержание</summary>
@@ -100,10 +100,7 @@ export default function PrivacyPage() {
             <p>2.2. Через форму обратной связи могут обрабатываться:</p>
             <ul>
               <li>имя;</li>
-              <li>
-                контактные данные: адрес электронной почты или имя пользователя
-                в Telegram;
-              </li>
+              <li>контактные данные: адрес электронной почты или номер телефона;</li>
               <li>название компании, если оно указано;</li>
               <li>
                 содержание сообщения и иные сведения, которые пользователь

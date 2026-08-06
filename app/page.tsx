@@ -386,11 +386,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
     e.preventDefault();
     const next: Record<string, string> = {};
     if (!name.trim()) next.name = "Укажите имя";
-    if (
-      !contact.trim() ||
-      (!contact.includes("@") && !contact.startsWith("@") && !contact.startsWith("t.me/"))
-    )
-      next.contact = "Укажите корректный контакт";
+    if (!contact.trim()) next.contact = "Укажите корректный контакт";
     if (!consent)
       next.consent = "Нужно согласие на обработку персональных данных";
     setErrors(next);
@@ -449,8 +445,8 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
               {errors.name && <small className="field-error" id="name-error">ⓘ {errors.name}</small>}
             </label>
             <label>
-              <span>Email или Telegram <b>*</b></span>
-              <input placeholder="kostya@konstantinopolis.ru или @kostya" value={contact} onChange={(e) => { setContact(e.target.value); clearError("contact"); }} aria-invalid={Boolean(errors.contact)} aria-describedby={errors.contact ? "contact-error" : undefined} />
+              <span>Email или телефон <b>*</b></span>
+              <input placeholder="kostya@konstantinopolis.ru или +7 999 123-45-67" value={contact} onChange={(e) => { setContact(e.target.value); clearError("contact"); }} aria-invalid={Boolean(errors.contact)} aria-describedby={errors.contact ? "contact-error" : undefined} />
               {errors.contact && <small className="field-error" id="contact-error">ⓘ {errors.contact}</small>}
             </label>
             <label>
