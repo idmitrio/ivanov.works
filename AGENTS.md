@@ -41,7 +41,6 @@
 
 ## Layout and Components
 
-- Validate the main layouts at 1440 px desktop and 390 px mobile.
 - Desktop uses a 12-column system with a maximum content width of 1280 px and generous section spacing.
 - Use restrained radii: 0–12 px for containers and square 0 px corners for buttons. Prefer thin borders and minimal shadows.
 - Interactive targets are at least 44×44 px and have visible hover, active, disabled, and keyboard-focus states.
@@ -52,6 +51,7 @@
 
 ## Page and Content Rules
 
+- Apply the `humanizer` skill to all text writing, editing, and review work.
 - The hero remains deep navy with white copy, signal-yellow CTA/mark, and substantial open space.
 - Preserve the exact hero headline: “Сокращаем ручную работу в операционных процессах”.
 - Preserve the main CTA label “Обсудить процесс” and the direct contacts: Telegram, MAX, and `dmitry@ivanov.works`.
@@ -86,8 +86,6 @@
 - Build and start production with `docker compose up -d --build`; inspect health and logs with `docker compose ps` and `docker compose logs`.
 - Caddy issues and renews public TLS certificates automatically when DNS points to the server and inbound ports 80 and 443 are open.
 - There is no automated test script yet. Do not claim tests pass based on lint or build alone.
-- After visual changes, perform browser QA at 1440 px and 390 px. Check the hero, spacing, typography, menu, FAQ, form states, `/privacy`, and `/case-template`.
-- Compare against supplied PNG references when available, but treat the approved written brief as authoritative for exact copy and behavior.
 - Do not refresh committed screenshots unless the task explicitly includes visual comparison or reference updates.
 
 ## Git, Workflow, and Safety
