@@ -57,6 +57,60 @@ SITE_DOMAIN=ivanov.works
 Секреты доступны только серверному обработчику `/api/contact` и не передаются
 в клиентский JavaScript.
 
+Настройки registry хранятся в отдельном файле `.env.pypi`, который не попадает
+в Git:
+
+```dotenv
+PYPI_DOMAIN=pypi.ivanov.works
+PYPI_USERNAME=ivanov
+PYPI_PASSWORD_HASH='$2a$14$replace-with-caddy-password-hash'
+```
+
+`PYPI_PASSWORD_HASH` содержит хеш, а не пароль. Получить его можно интерактивной
+командой:
+
+```bash
+docker run --rm -it caddy:2-alpine caddy hash-password
+```
+
+В `.env.pypi` хеш нужно заключить в одинарные кавычки, чтобы символы `$`
+сохранились без изменений.
+
+## Приватный Python Package Index
+
+Registry доступен по адресу `https://pypi.ivanov.works`. Caddy проверяет Basic
+Auth и передаёт запросы в отдельный контейнер `pypi`. Контейнер не публикует
+порт на хосте и хранит пакеты в именованном томе `pypi_packages`.
+
+Подключение registry к проекту с `uv`:
+
+```toml
+[[tool.uv.index]]
+name = "ivanov-private"
+url = "https://pypi.ivanov.works/simple/"
+publish-url = "https://pypi.ivanov.works/"
+explicit = true
+```
+
+Логин и пароль передаются через окружение:
+
+```bash
+export UV_INDEX_IVANOV_PRIVATE_USERNAME=ivanov
+export UV_INDEX_IVANOV_PRIVATE_PASSWORD=replace-me
+export UV_PUBLISH_USERNAME=ivanov
+export UV_PUBLISH_PASSWORD=replace-me
+```
+
+Сборка и публикация пакета:
+
+```bash
+uv build
+uv publish --index ivanov-private
+```
+
+Версии опубликованных пакетов нельзя перезаписывать. Для исправления выпускается
+новая версия пакета.
+
 ## Развёртывание
 
 До первого запуска создайте DNS-записи `A` для основного домена и `www`,
