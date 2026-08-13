@@ -21,11 +21,46 @@ services:
       retries: 5
       start_period: 20s
 
+  pypi:
+    image: pypiserver/pypiserver:v2.4.1
+    command:
+      [
+        "run",
+        "--server",
+        "gunicorn",
+        "--disable-fallback",
+        "--health-endpoint",
+        "/health",
+        "-a",
+        ".",
+        "-P",
+        ".",
+        "/data/packages",
+      ]
+    restart: unless-stopped
+    volumes:
+      - pypi_packages:/data/packages
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=3)",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
   caddy:
     image: caddy:2-alpine
     depends_on:
       app:
         condition: service_healthy
+    env_file:
+      - path: .env.pypi
+        required: false
     environment:
       SITE_DOMAIN: ${SITE_DOMAIN:-ivanov.works}
     ports:
@@ -41,3 +76,4 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+  pypi_packages:
