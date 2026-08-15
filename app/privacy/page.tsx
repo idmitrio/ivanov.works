@@ -6,9 +6,12 @@ export const metadata: Metadata = {
     "Политика обработки персональных данных — ИИ-студия Дмитрия Иванова",
   description:
     "Политика ИП Иванова Дмитрия Анатольевича в отношении обработки персональных данных на сайте ivanov.works.",
+  alternates: {
+    canonical: "/privacy",
+  },
   robots: {
     index: false,
-    follow: false,
+    follow: true,
   },
 };
 

@@ -203,12 +203,20 @@ function CookieNotice({ enabled }: { enabled: boolean }) {
 function SolutionBenefitPanel({
   item,
   className = "",
+  id,
+  hidden = false,
 }: {
   item: (typeof solutions)[number];
   className?: string;
+  id?: string;
+  hidden?: boolean;
 }) {
   return (
-    <div className={`solution-benefit-panel ${className}`}>
+    <div
+      className={`solution-benefit-panel ${className}`}
+      id={id}
+      hidden={hidden}
+    >
       <div className="solution-benefit-main">
         <span>Что получит ваша команда</span>
         <h3>{item.result}</h3>
@@ -567,39 +575,29 @@ export default function Home() {
               <h2>Где можно сократить ручную работу</h2>
               <p>Пять типовых задач, в которых можно сократить ручную работу.</p>
             </div>
-            <div className="solutions-benefit-desktop">
-              <div className="solution-benefit-nav" aria-label="Сценарии автоматизации">
-                {solutions.map((item, index) => {
-                  const isOpen = index === openSolution;
-                  return (
-                    <button
-                      className={isOpen ? "active" : ""}
-                      onClick={() => setOpenSolution(index)}
-                      aria-pressed={isOpen}
-                      key={item.title}
-                    >
-                      <span>{item.title}</span>
-                      <i aria-hidden="true">→</i>
-                    </button>
-                  );
-                })}
-              </div>
-              <SolutionBenefitPanel item={solutions[openSolution]} />
-            </div>
-            <div className="solutions-benefit-mobile">
+            <div className="solutions-benefit-list" aria-label="Сценарии автоматизации">
               {solutions.map((item, index) => {
                 const isOpen = index === openSolution;
+                const panelId = `solution-panel-${index}`;
                 return (
                   <article className={isOpen ? "active" : ""} key={item.title}>
                     <button
-                      className="solution-benefit-mobile-head"
+                      className="solution-benefit-head"
                       onClick={() => setOpenSolution(index)}
                       aria-expanded={isOpen}
+                      aria-controls={panelId}
                     >
                       <span>{item.title}</span>
-                      <i aria-hidden="true">{isOpen ? "−" : "+"}</i>
+                      <i aria-hidden="true">
+                        <span className="solution-arrow">→</span>
+                        <span className="solution-toggle">{isOpen ? "−" : "+"}</span>
+                      </i>
                     </button>
-                    {isOpen && <SolutionBenefitPanel item={item} />}
+                    <SolutionBenefitPanel
+                      item={item}
+                      id={panelId}
+                      hidden={!isOpen}
+                    />
                   </article>
                 );
               })}
@@ -658,10 +656,20 @@ export default function Home() {
                 const isOpen = openFaq === index;
                 return (
                   <div className="faq-item" key={question}>
-                    <button onClick={() => setOpenFaq(isOpen ? null : index)} aria-expanded={isOpen}>
+                    <button
+                      onClick={() => setOpenFaq(isOpen ? null : index)}
+                      aria-expanded={isOpen}
+                      aria-controls={`faq-answer-${index}`}
+                    >
                       <span>{question}</span><i>{isOpen ? "−" : "+"}</i>
                     </button>
-                    {isOpen && <div className="faq-answer"><p>{answer}</p></div>}
+                    <div
+                      className="faq-answer"
+                      id={`faq-answer-${index}`}
+                      hidden={!isOpen}
+                    >
+                      <p>{answer}</p>
+                    </div>
                   </div>
                 );
               })}
