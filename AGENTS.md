@@ -52,6 +52,8 @@
 ## Page and Content Rules
 
 - Apply the `humanizer` skill to all text writing, editing, and review work.
+- Make every new public page and its content indexable by default. Add a self-referencing canonical URL and include the route in `sitemap.xml`; use `noindex`, `nofollow`, `robots.txt` exclusions, or sitemap omission only for an explicit service, legal, or user-requested exception.
+- Keep all indexable text in the initial server-rendered HTML. Accordions, tabs, carousels, and other interactive components may hide content visually, but must not mount it only after a click or another client-side action.
 - The hero remains deep navy with white copy, signal-yellow CTA/mark, and substantial open space.
 - Preserve the exact hero headline: “Сокращаем ручную работу в операционных процессах”.
 - Preserve the main CTA label “Обсудить процесс” and the direct contacts: Telegram, MAX, and `dmitry@ivanov.works`.
