@@ -552,7 +552,7 @@ export default function Home() {
         <section className="hero">
           <div className="container hero-grid">
             <div className="hero-copy">
-              <p className="eyebrow">ПЕРСОНАЛЬНАЯ ИНЖЕНЕРНАЯ ИИ-СТУДИЯ</p>
+              <p className="eyebrow">РАЗРАБОТКА И ВНЕДРЕНИЕ ИИ-РЕШЕНИЙ</p>
               <h1>Сокращаем ручную работу в процессах компании</h1>
               <p className="hero-lead">Проверим на одном процессе и ваших данных, справится ли ИИ с задачей, прежде чем разрабатывать и внедрять полноценное решение.</p>
               <div className="hero-actions">
