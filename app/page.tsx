@@ -554,13 +554,10 @@ export default function Home() {
             <div className="hero-copy">
               <p className="eyebrow">РАЗРАБОТКА И ВНЕДРЕНИЕ ИИ-РЕШЕНИЙ</p>
               <h1>Сокращаем ручную работу в процессах компании</h1>
-              <p className="hero-lead">Проверим на одном процессе и ваших данных, справится ли ИИ с задачей, прежде чем разрабатывать и внедрять полноценное решение.</p>
+              <p className="hero-lead">За 30 минут разберём один процесс и обсудим, где может помочь ИИ и что стоит проверить дальше.</p>
               <div className="hero-actions">
                 <button className="button button--primary hero-cta" onClick={openForm}>Обсудить процесс</button>
-                <a className="hero-presentation-link" href="/ivanov-ai-presentation.pdf" download>
-                  <span className="hero-presentation-label">Скачать презентацию</span>
-                  <span className="hero-presentation-icon" aria-hidden="true">↓</span>
-                </a>
+                <p className="hero-meeting-terms">30 минут · Бесплатно · Без обязательств</p>
               </div>
               <DirectLinks />
             </div>
@@ -642,6 +639,10 @@ export default function Home() {
                   <p>На этом принципе строится работа студии. Мы начинаем каждый проект с конкретного бизнес-процесса: разбираемся, где компания теряет время и деньги, где возникают ошибки и какой результат должно дать внедрение.</p>
                   <p>Я лично веду проект от первого обсуждения до запуска и отвечаю за его реализацию. Для меня результат — это работающий инструмент, которым пользуются сотрудники и который приносит бизнесу измеримую пользу.</p>
                 </div>
+                <a className="presentation-link" href="/ivanov-ai-presentation.pdf" download>
+                  <span className="presentation-label">Скачать презентацию</span>
+                  <span className="presentation-icon" aria-hidden="true">↓</span>
+                </a>
               </div>
             </div>
           </div>
