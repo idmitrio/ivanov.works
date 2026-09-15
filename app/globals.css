@@ -173,7 +173,8 @@ h3 { font-size: 26px; }
 
 .final-cta { position: relative; overflow: hidden; padding: 112px 0; background: var(--blue); color: var(--white); }
 .final-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 64px; align-items: center; }
-.final-grid h2 { max-width: 810px; margin-bottom: 36px; }
+.final-grid h2 { max-width: 810px; margin-bottom: 24px; }
+.final-cta-lead { max-width: 640px; margin: 0 0 36px; color: #d2d8e2; }
 .hero-mark--small { width: 410px; margin-right: 30px; opacity: .14; }
 .final-cta .direct a { color: var(--yellow); }
 

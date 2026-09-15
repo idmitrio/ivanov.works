@@ -97,7 +97,7 @@ const steps = [
 const faqs = [
   [
     "С какой задачи лучше начать?",
-    "С работы, которая регулярно повторяется и отнимает время у команды. Например, сотрудники переносят данные из счетов, разбирают заявки или собирают отчеты вручную. На первом разговоре обсудим один такой процесс и решим, что стоит проверить.",
+    "С работы, которая регулярно повторяется и отнимает время у команды. Например, сотрудники переносят данные из счетов, разбирают заявки или собирают отчеты вручную. На первом разговоре обсудим вашу задачу и возможные способы ее упростить.",
   ],
   [
     "Что будет после первого разговора и сколько это стоит?",
@@ -551,7 +551,7 @@ export default function Home() {
             <div className="hero-copy">
               <p className="eyebrow">РАЗРАБОТКА И ВНЕДРЕНИЕ ИИ-РЕШЕНИЙ</p>
               <h1>Сокращаем ручную работу в процессах компании</h1>
-              <p className="hero-lead">За 30 минут разберем один процесс и обсудим, где может помочь ИИ и что стоит проверить дальше.</p>
+              <p className="hero-lead">За 30 минут разберем вашу задачу и обсудим, стоит ли ее автоматизировать.</p>
               <div className="hero-actions">
                 <button className="button button--primary hero-cta" onClick={openForm}>Обсудить процесс</button>
                 <p className="hero-meeting-terms">30 минут · Бесплатно · Без обязательств</p>
@@ -567,7 +567,7 @@ export default function Home() {
             <p className="section-kicker">РЕШЕНИЯ</p>
             <div className="section-heading-row">
               <h2>Где можно сократить ручную работу</h2>
-              <p>Примеры задач в документообороте, продажах и сервисе. Начать можно с одной.</p>
+              <p>Примеры задач в документообороте, продажах и сервисе.</p>
             </div>
             <div className="solutions-benefit-list" aria-label="Сценарии автоматизации">
               {solutions.map((item, index) => {
@@ -651,7 +651,7 @@ export default function Home() {
             <p className="section-kicker">ПРОЦЕСС</p>
             <div className="section-heading-row">
               <h2>Как мы работаем</h2>
-              <p>Начинаем с одного процесса. Состав и стоимость каждого платного этапа согласуем до начала работ.</p>
+              <p>Состав и стоимость каждого платного этапа согласуем до начала работ.</p>
             </div>
             <div className="timeline">
               {steps.map((step, index) => (
@@ -723,7 +723,8 @@ export default function Home() {
           <div className="container final-grid">
             <div>
               <p className="section-kicker section-kicker--dark">СЛЕДУЮЩИЙ ШАГ</p>
-              <h2>Разберем ваш процесс и поймем, есть ли в нем задача для ИИ</h2>
+              <h2>С какой задачи начнем?</h2>
+              <p className="final-cta-lead">Расскажите, какую ручную работу хотите упростить. Начнем с бесплатного 30-минутного разговора.</p>
               <button className="button button--primary" onClick={openForm}>Обсудить процесс</button>
               <DirectLinks />
             </div>
