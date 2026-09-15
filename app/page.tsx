@@ -1,5 +1,6 @@
 "use client";
 
+
 import {
   FormEvent,
   useEffect,
@@ -619,6 +620,36 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="section case-feature" id="smartofood-case" aria-labelledby="case-feature-title">
+          <div className="container">
+            <p className="section-kicker">КЕЙС · SMARTOFOOD</p>
+            <h2 id="case-feature-title">ИИ-агент для публикации мобильных приложений</h2>
+            <p className="case-feature-context">Smartofood — фудтех-стартап основателя студии.</p>
+            <div className="case-feature-grid">
+              <div className="case-feature-story">
+                <h3>Раньше</h3>
+                <p>На каждое приложение клиента уходил час ручной работы. Очередь росла, и клиенты неделю ждали отправки приложения в магазины.</p>
+                <h3>Что изменили</h3>
+                <p>Агент проверяет данные из анкеты, собирает приложения и отправляет их в RuStore, Google Play и App Store. После успешной публикации добавляет ссылки на сайт клиента.</p>
+              </div>
+              <div className="case-feature-result">
+                <p className="case-feature-result-label">Ручная работа на одно приложение</p>
+                <p className="case-feature-metric"><span>1 час</span><span aria-hidden="true">→</span><strong>5 мин</strong></p>
+                <p>Сотрудник заполняет данные. Агент ведет публикации автоматически каждый день.</p>
+              </div>
+            </div>
+            <details className="case-feature-details">
+              <summary>Как работает агент<span aria-hidden="true">+</span></summary>
+              <ol className="case-feature-flow">
+                <li><span>01</span><strong>Проверяет анкету</strong><p>Получает данные, которые заполнил сотрудник.</p></li>
+                <li><span>02</span><strong>Собирает приложения</strong><p>Готовит приложения клиента к отправке в магазины.</p></li>
+                <li><span>03</span><strong>Ведет публикации</strong><p>Отправляет приложения в RuStore, Google Play и App Store.</p></li>
+                <li><span>04</span><strong>Добавляет ссылки</strong><p>Размещает ссылки на сайте клиента после успешной публикации.</p></li>
+              </ol>
+            </details>
+          </div>
+        </section>
+
         <section className="section process" id="process">
           <div className="container">
             <p className="section-kicker">ПРОЦЕСС</p>
@@ -645,15 +676,13 @@ export default function Home() {
         <section className="section about" id="about">
           <div className="container">
             <p className="section-kicker">О СТУДИИ</p>
+            <h2 className="about-title">От первого разговора до запуска</h2>
             <div className="about-grid">
               <div>
-                <h2>Лично веду проект от первого обсуждения до запуска</h2>
                 <div className="about-copy">
-                  <p>Меня зовут Дмитрий Иванов, я основатель студии. С 2007 года я создаю цифровые продукты и автоматизирую бизнес-процессы.</p>
-                  <p>Запускал веб- и B2B-сервисы, разрабатывал внутренние ERP-системы, интеграции с CRM и ресторанными платформами. Занимался управленческой отчетностью и автоматизацией доставки. Основал и технически руководил фудтех-стартапом Smartofood.</p>
-                  <p>За эти годы я понял простую вещь: технология сама по себе редко решает бизнес-задачу. Можно собрать убедительный прототип, но пользы от него не будет, если он не учитывает реальный процесс, данные, экономику и ограничения компании.</p>
-                  <p>На этом принципе строится работа студии. Мы начинаем каждый проект с конкретного бизнес-процесса: разбираемся, где компания теряет время и деньги, где возникают ошибки и какой результат должно дать внедрение.</p>
-                  <p>Я лично веду проект от первого обсуждения до запуска и отвечаю за его реализацию. Для меня результат — это работающий инструмент, которым пользуются сотрудники и который приносит бизнесу измеримую пользу.</p>
+                  <p>Меня зовут Дмитрий Иванов, я основатель студии. С 2007 года создаю цифровые продукты и автоматизирую бизнес-процессы.</p>
+                  <p>Разрабатывал ERP-системы, интеграции с CRM и ресторанными платформами. Основал и технически руководил фудтех-стартапом Smartofood.</p>
+                  <p>Сначала вместе с вашей командой разбираемся, какую ручную работу стоит автоматизировать. Затем я веду разработку и отвечаю за запуск решения.</p>
                 </div>
                 <a className="presentation-link" href="/ivanov-ai-presentation.pdf" download>
                   <span className="presentation-label">Скачать презентацию</span>
