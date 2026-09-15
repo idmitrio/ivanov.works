@@ -637,10 +637,10 @@ export default function Home() {
             <details className="case-feature-details">
               <summary>Как работает агент<span aria-hidden="true">+</span></summary>
               <ol className="case-feature-flow">
-                <li><span>01</span><strong>Проверяет анкету</strong><p>Получает данные, которые заполнил сотрудник.</p></li>
-                <li><span>02</span><strong>Собирает приложения</strong><p>Готовит приложения клиента к отправке в магазины.</p></li>
-                <li><span>03</span><strong>Ведет публикации</strong><p>Отправляет приложения в RuStore, Google Play и App Store.</p></li>
-                <li><span>04</span><strong>Добавляет ссылки</strong><p>Размещает ссылки на сайте клиента после успешной публикации.</p></li>
+                <li><span>1</span><strong>Проверяет анкету</strong><p>Получает данные, которые заполнил сотрудник.</p></li>
+                <li><span>2</span><strong>Собирает приложения</strong><p>Готовит приложения клиента к отправке в магазины.</p></li>
+                <li><span>3</span><strong>Контролирует публикацию</strong><p>Отправляет приложения в магазины и контролирует их публикацию.</p></li>
+                <li><span>4</span><strong>Добавляет ссылки</strong><p>Размещает ссылки на сайте клиента после успешной публикации.</p></li>
               </ol>
             </details>
           </div>

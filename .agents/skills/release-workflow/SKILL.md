@@ -31,7 +31,7 @@ Never release directly from `feature/` or `fix/`, open a release PR directly fro
 - Update every verified runtime, package, manifest, docs, deployment, or generated version surface. A changelog entry and tag do not replace project version changes.
 - Stop after preparing the changelog. Do not commit, push, create or merge the PR, tag, or clean branches until the user explicitly approves the changelog text.
 - Never bypass merge conflicts, unknown merge blocks, or failing required checks.
-- Never delete `master`, `develop`, or `preprod`.
+- Never delete `master` or `develop`.
 
 ## Overlay Discovery
 
@@ -68,9 +68,8 @@ Exclude service-only agent infrastructure from user-facing notes unless requeste
 5. If conflicts exist, checks fail, or the block is unknown, stop; do not bypass.
 6. Merge the PR, switch to `master`, pull the merged state, create `v{version}`, and push the tag.
 7. Delete the merged `release-{version}` or `hotfix-{version}` branch locally and remotely. Delete only the branch used for this release.
-8. If `preprod` exists, merge `master` into it and push; otherwise record that it was skipped.
-9. Merge `master` into `develop` and push. Direct protected-branch bypass is the default only when available and required by this workflow; report notices or stop on a technical/permission rejection.
-10. Verify the final remote/branch state and report high-signal results.
+8. Merge `master` into `develop` and push. Direct protected-branch bypass is the default only when available and required by this workflow; report notices or stop on a technical/permission rejection.
+9. Verify the final remote/branch state and report high-signal results.
 
 Do not create a sync PR by default. Do not ask for a second approval solely for `--admin` when the mandatory changelog gate passed and GitHub reports only covered protection/review policy blocks.
 
@@ -134,7 +133,7 @@ The release is complete only when:
 - the approved release PR is merged into `master`;
 - merged `master` is tagged `v{version}` and the tag is pushed;
 - the used release/hotfix branch is deleted locally and remotely;
-- `preprod` was synced when present and `develop` was synced;
+- `develop` was synced;
 - the final report includes source branch, PR URL, merge commit or old..new range, tag, tests/review, cleanup, sync results, skipped branches, and bypass notices.
 
 Keep that report concise: summarize pull/merge output rather than pasting long diffs, but name any unresolved blocker and the last safely completed stage.
