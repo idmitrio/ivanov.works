@@ -103,8 +103,8 @@ const faqs = [
     "Не всегда. Если сотрудник освободил несколько часов, расходы компании сами по себе не снизились. На старте мы определяем, во что можно превратить это время: отказаться от переработок или подрядчика, не нанимать дополнительного человека, обработать больше заказов или снизить потери из-за ошибок.",
   ],
   [
-    "Придётся ли менять привычный порядок работы?",
-    "Иногда да, но только в той части, которую автоматизируем. Мы заранее определяем, что делает система, что остаётся сотруднику и в каких случаях нужна ручная проверка. Перестраивать работу всей компании не потребуется.",
+    "Придется ли менять привычный порядок работы?",
+    "Иногда да, но только в той части, которую автоматизируем. Мы заранее определяем, что делает система, что остается сотруднику и в каких случаях нужна ручная проверка. Перестраивать работу всей компании не потребуется.",
   ],
   [
     "С какой задачи лучше начать?",
@@ -431,7 +431,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
           <div className="result-state">
             <span className="result-icon result-icon--success">✓</span>
             <h2>Спасибо, заявка отправлена</h2>
-            <p>Мы свяжемся с вами в ближайшее время, по указанному адресу</p>
+            <p>Мы свяжемся с вами по указанному контакту и согласуем время разговора.</p>
             <DirectLinks compact />
           </div>
         ) : status === "error" ? (
@@ -446,7 +446,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
           </div>
         ) : (
           <form onSubmit={submit} noValidate className="contact-form">
-            <p className="modal-lead">Оставьте контакты, мы свяжемся с вами в ближайшее время</p>
+            <p className="modal-lead">Оставьте контакт — согласуем время бесплатного 30-минутного разговора. Документы и доступы для первой встречи не нужны.</p>
             <label>
               <span>Ваше имя <b>*</b></span>
               <input placeholder="Константин Константинопольский" value={name} onChange={(e) => { setName(e.target.value); clearError("name"); }} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} />
@@ -462,8 +462,8 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
               <input placeholder="ООО «Константа»" value={company} onChange={(e) => setCompany(e.target.value)} />
             </label>
             <label>
-              <span>Сообщение</span>
-              <textarea placeholder="Коротко опишите процесс и где возникает ручная работа" value={message} onChange={(e) => setMessage(e.target.value)} rows={3} />
+              <span>Какую ручную работу хотите обсудить?</span>
+              <textarea placeholder="Необязательно. Например: вручную переносим данные из счетов в 1С" value={message} onChange={(e) => setMessage(e.target.value)} rows={3} />
             </label>
             <label className="check-row">
               <input type="checkbox" checked={consent} onChange={(e) => { setConsent(e.target.checked); clearError("consent"); }} aria-invalid={Boolean(errors.consent)} />
@@ -554,7 +554,7 @@ export default function Home() {
             <div className="hero-copy">
               <p className="eyebrow">РАЗРАБОТКА И ВНЕДРЕНИЕ ИИ-РЕШЕНИЙ</p>
               <h1>Сокращаем ручную работу в процессах компании</h1>
-              <p className="hero-lead">За 30 минут разберём один процесс и обсудим, где может помочь ИИ и что стоит проверить дальше.</p>
+              <p className="hero-lead">За 30 минут разберем один процесс и обсудим, где может помочь ИИ и что стоит проверить дальше.</p>
               <div className="hero-actions">
                 <button className="button button--primary hero-cta" onClick={openForm}>Обсудить процесс</button>
                 <p className="hero-meeting-terms">30 минут · Бесплатно · Без обязательств</p>
@@ -599,6 +599,22 @@ export default function Home() {
                 );
               })}
             </div>
+
+            <section className="meeting" aria-labelledby="meeting-title">
+              <div className="meeting-layout">
+                <div className="meeting-duration">
+                  <p className="section-kicker">ПЕРВЫЙ РАЗГОВОР</p>
+                  <p className="meeting-time">30 минут</p>
+                  <p className="meeting-terms">Бесплатно · Без обязательств</p>
+                </div>
+                <div className="meeting-summary">
+                  <h2 id="meeting-title">Начнем с одного процесса</h2>
+                  <p>Вы расскажете, где команда тратит время на ручную работу. Мы обсудим, что можно автоматизировать и что проверить дальше.</p>
+                  <p className="meeting-preparation">Документы и доступы для разговора не нужны.</p>
+                  <p className="meeting-next">Дальнейшие работы оплачиваются отдельно. Состав и стоимость согласуем заранее.</p>
+                </div>
+              </div>
+            </section>
             <button className="button button--primary section-cta" onClick={openForm}>Обсудить процесс</button>
           </div>
         </section>
