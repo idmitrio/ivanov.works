@@ -618,15 +618,14 @@ export default function Home() {
 
         <section className="section case-feature" id="smartofood-case" aria-labelledby="case-feature-title">
           <div className="container">
-            <p className="section-kicker">КЕЙС · SMARTOFOOD</p>
+            <p className="section-kicker">КЕЙС SMARTOFOOD</p>
             <h2 id="case-feature-title">ИИ-агент для публикации мобильных приложений</h2>
-            <p className="case-feature-context">Smartofood — фудтех-стартап основателя студии.</p>
             <div className="case-feature-grid">
               <div className="case-feature-story">
-                <h3>Раньше</h3>
-                <p>На каждое приложение клиента уходил час ручной работы. Очередь росла, и клиенты неделю ждали отправки приложения в магазины.</p>
-                <h3>Что изменили</h3>
-                <p>Агент проверяет данные из анкеты, собирает приложения и отправляет их в RuStore, Google Play и App Store. После успешной публикации добавляет ссылки на сайт клиента.</p>
+                <h3>Проблема</h3>
+                <p>В Smartofood необходимо постоянно публиковать мобильные приложения клиентов. Ручная работа занимала час на каждое. Очередь росла, и клиенты неделю ждали отправки приложения в магазины.</p>
+                <h3>Решение</h3>
+                <p>Внедрили ИИ-агента: он проверяет данные из анкеты, собирает приложения, отправляет их в RuStore, Google Play и App Store. После успешной публикации размещает ссылки на сайте клиента.</p>
               </div>
               <div className="case-feature-result">
                 <p className="case-feature-result-label">Ручная работа на одно приложение</p>
@@ -637,10 +636,10 @@ export default function Home() {
             <details className="case-feature-details">
               <summary>Как работает агент<span aria-hidden="true">+</span></summary>
               <ol className="case-feature-flow">
-                <li><span>01</span><strong>Проверяет анкету</strong><p>Получает данные, которые заполнил сотрудник.</p></li>
-                <li><span>02</span><strong>Собирает приложения</strong><p>Готовит приложения клиента к отправке в магазины.</p></li>
-                <li><span>03</span><strong>Ведет публикации</strong><p>Отправляет приложения в RuStore, Google Play и App Store.</p></li>
-                <li><span>04</span><strong>Добавляет ссылки</strong><p>Размещает ссылки на сайте клиента после успешной публикации.</p></li>
+                <li><span>1</span><strong>Проверяет анкету</strong><p>Получает данные, которые заполнил сотрудник.</p></li>
+                <li><span>2</span><strong>Собирает приложения</strong><p>Готовит приложения клиента к отправке в магазины.</p></li>
+                <li><span>3</span><strong>Контролирует публикацию</strong><p>Отправляет приложения в магазины и контролирует их публикацию.</p></li>
+                <li><span>4</span><strong>Добавляет ссылки</strong><p>Размещает ссылки на сайте клиента после успешной публикации.</p></li>
               </ol>
             </details>
           </div>
@@ -678,7 +677,7 @@ export default function Home() {
                 <div className="about-copy">
                   <p>Меня зовут Дмитрий Иванов, я основатель студии. С 2007 года создаю цифровые продукты и автоматизирую бизнес-процессы.</p>
                   <p>Разрабатывал ERP-системы, интеграции с CRM и ресторанными платформами. Основал и технически руководил фудтех-стартапом Smartofood.</p>
-                  <p>Сначала вместе с вашей командой разбираемся, какую ручную работу стоит автоматизировать. Затем я веду разработку и отвечаю за запуск решения.</p>
+                  <p>Вместе с вашей командой определяем, где автоматизация принесет пользу. Я отвечаю за техническое решение, разработку и внедрение.</p>
                 </div>
                 <a className="presentation-link" href="/ivanov-ai-presentation.pdf" download>
                   <span className="presentation-label">Скачать презентацию</span>
