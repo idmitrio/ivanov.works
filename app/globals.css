@@ -148,8 +148,7 @@ h3 { font-size: 26px; }
 .meeting-summary .meeting-next { margin: 0; font-size: 16px; color: #656565; }
 
 .case-feature { background: var(--white); }
-.case-feature h2 { max-width: 880px; margin-bottom: 20px; }
-.case-feature-context { margin: 0 0 48px; color: var(--muted); font-size: 16px; }
+.case-feature h2 { max-width: 880px; margin-bottom: 48px; }
 .case-feature-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 64px; align-items: start; }
 .case-feature-story h3 { margin: 0 0 12px; font-family: var(--text); font-size: 20px; letter-spacing: 0; }
 .case-feature-story p { margin: 0 0 28px; max-width: 650px; }
@@ -264,7 +263,7 @@ footer { padding: 56px 0 36px; background: var(--warm); border-top: 1px solid va
 }
 
 @media (max-width: 620px) {
-  .case-feature-context { margin-bottom: 32px; }
+  .case-feature h2 { margin-bottom: 32px; }
   .case-feature-result { padding: 24px; }
   .case-feature-result > p:last-child { font-size: 16px; }
   .case-feature-flow { grid-template-columns: 1fr; gap: 24px; }
