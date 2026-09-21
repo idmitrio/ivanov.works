@@ -618,15 +618,14 @@ export default function Home() {
 
         <section className="section case-feature" id="smartofood-case" aria-labelledby="case-feature-title">
           <div className="container">
-            <p className="section-kicker">КЕЙС · SMARTOFOOD</p>
+            <p className="section-kicker">КЕЙС SMARTOFOOD</p>
             <h2 id="case-feature-title">ИИ-агент для публикации мобильных приложений</h2>
-            <p className="case-feature-context">Smartofood — фудтех-стартап основателя студии.</p>
             <div className="case-feature-grid">
               <div className="case-feature-story">
-                <h3>Раньше</h3>
-                <p>На каждое приложение клиента уходил час ручной работы. Очередь росла, и клиенты неделю ждали отправки приложения в магазины.</p>
-                <h3>Что изменили</h3>
-                <p>Агент проверяет данные из анкеты, собирает приложения и отправляет их в RuStore, Google Play и App Store. После успешной публикации добавляет ссылки на сайт клиента.</p>
+                <h3>Проблема</h3>
+                <p>В Smartofood необходимо постоянно публиковать мобильные приложения клиентов. Ручная работа занимала час на каждое. Очередь росла, и клиенты неделю ждали отправки приложения в магазины.</p>
+                <h3>Решение</h3>
+                <p>Внедрили ИИ-агента: он проверяет данные из анкеты, собирает приложения, отправляет их в RuStore, Google Play и App Store. После успешной публикации размещает ссылки на сайте клиента.</p>
               </div>
               <div className="case-feature-result">
                 <p className="case-feature-result-label">Ручная работа на одно приложение</p>
