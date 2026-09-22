@@ -601,10 +601,6 @@ export default function Home() {
                   <p>Разрабатывал ERP-системы, интеграции с CRM и ресторанными платформами. Основал и технически руководил фудтех-стартапом Smartofood.</p>
                   <p>Вместе с вашей командой определяем, где автоматизация принесет пользу. Я отвечаю за техническое решение, разработку и внедрение.</p>
                 </div>
-                <a className="presentation-link" href="/ivanov-ai-presentation.pdf" download>
-                  <span className="presentation-label">Скачать презентацию</span>
-                  <span className="presentation-icon" aria-hidden="true">↓</span>
-                </a>
               </div>
             </div>
           </div>
