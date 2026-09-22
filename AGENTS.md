@@ -10,7 +10,8 @@
 
 ## Architecture and Ownership
 
-- Product routes are `/`, `/privacy`, and `/case-template`; application code lives in `app/`.
+- Product routes are `/`, `/solutions`, `/solutions/[slug]`, `/privacy`, and `/case-template`; application code lives in `app/`.
+- Shared navigation lives in `app/site-header.tsx`, the site-wide contact form and its provider live in `app/contact-modal.tsx`, and solution directions and scenarios live in `app/solutions/data.ts`.
 - Global design tokens and responsive rules live in `app/globals.css`; reusable visual decisions should be expressed there instead of duplicated inline.
 - Use the original SVG assets in `public/brand/` without changing their geometry. Do not redraw or “improve” the mark.
 - The production runtime is Next.js in standalone Node.js mode. `Dockerfile` builds the application, `compose.yaml` runs it, and Caddy in `Caddyfile` terminates HTTPS and proxies requests to the app.
@@ -55,14 +56,14 @@
 - Make every new public page and its content indexable by default. Add a self-referencing canonical URL and include the route in `sitemap.xml`; use `noindex`, `nofollow`, `robots.txt` exclusions, or sitemap omission only for an explicit service, legal, or user-requested exception.
 - Keep all indexable text in the initial server-rendered HTML. Accordions, tabs, carousels, and other interactive components may hide content visually, but must not mount it only after a click or another client-side action.
 - The hero remains deep navy with white copy, signal-yellow CTA/mark, and substantial open space.
-- Preserve the exact hero headline: “Сокращаем ручную работу в операционных процессах”.
 - Preserve the main CTA label “Обсудить процесс” and the direct contacts: Telegram, MAX, and `dmitry@ivanov.works`.
-- The solutions section must clearly distinguish input, system action, employee responsibility, and practical result. Do not number solution types.
+- The home-page solutions section must clearly distinguish input, system action, employee responsibility, and practical result. Do not number solution types.
+- `/solutions` is the direction catalog. Detail pages use “Было / Стало” scenario cards and must read their content from `app/solutions/data.ts`.
 - The process section must keep four stages without separate “control point” blocks.
 - The founder section must remain personal and evidence-based. Keep it as the main text column without a separate logo/name card.
 - `/case-template` is a future-case structure only. Do not surface a case on the main site until its company, result, and metrics are real and confirmed.
 - `/privacy` contains the published personal-data policy. Keep its operator details, form-data categories, analytics disclosure, consent behavior, and actual site integrations synchronized with the implementation; legal changes require source verification and lawyer-review notes.
-- Keep the metadata title and description aligned with managed AI solutions for documents, requests, support, and internal knowledge bases.
+- Keep the metadata title and description aligned with managed AI solutions for documents, requests, support, internal knowledge bases, and reports.
 
 ## Form and Accessibility Contract
 
@@ -75,6 +76,7 @@
 - Meet WCAG AA: visible labels, logical tab order, sufficient contrast, linked error descriptions, keyboard access, and non-icon-only meaning.
 - The cookie notice stays disabled unless optional analytics or advertising cookies are actually introduced.
 - The form submits through `/api/contact` to the Telegram Bot API over the configured HTTP or HTTPS proxy.
+- Yandex Metrika is mounted globally in `app/yandex-metrika.tsx`. Preserve explicit `hit` calls for client-side route changes and the form goals defined in `app/contact-modal.tsx`.
 - Required runtime variables are `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TELEGRAM_PROXY_URL`, `TELEGRAM_PROXY_USER`, and `TELEGRAM_PROXY_PASSWORD`; `TELEGRAM_THREAD_ID` is optional.
 - `TELEGRAM_PROXY_URL` must include its protocol, for example `http://proxy.example:3128`.
 - Never expose secret variables to client code, include their values in logs, or commit `.env`.
