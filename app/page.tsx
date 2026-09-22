@@ -535,22 +535,6 @@ export default function Home() {
               })}
             </div>
 
-            <section className="meeting" aria-labelledby="meeting-title">
-              <div className="meeting-layout">
-                <div className="meeting-duration">
-                  <p className="section-kicker">ПЕРВЫЙ РАЗГОВОР</p>
-                  <p className="meeting-time">30 минут</p>
-                  <p className="meeting-terms">Бесплатно · Без обязательств</p>
-                </div>
-                <div className="meeting-summary">
-                  <h2 id="meeting-title">Начнем с одного процесса</h2>
-                  <p>Вы расскажете, где команда тратит время на ручную работу. Мы обсудим, что можно автоматизировать и что проверить дальше.</p>
-                  <p className="meeting-preparation">Документы и доступы для разговора не нужны.</p>
-                  <p className="meeting-next">Дальнейшие работы оплачиваются отдельно. Состав и стоимость согласуем заранее.</p>
-                </div>
-              </div>
-            </section>
-            <button className="button button--primary section-cta" onClick={openForm}>Обсудить процесс</button>
           </div>
         </section>
 
