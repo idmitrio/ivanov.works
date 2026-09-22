@@ -8,6 +8,7 @@ import {
   SolutionsHeader,
 } from "../solutions-ui";
 import { withNbsp } from "../../typography";
+import { ContactButton } from "../../contact-modal";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -64,7 +65,7 @@ export default async function SolutionDirectionPage({ params }: PageProps) {
             <h2>Обсудим похожую задачу</h2>
             <p>Для первого разговора достаточно описать процесс. Документы и доступы не нужны.</p>
           </div>
-          <Link className="button button--primary" href="/#contact">Обсудить процесс</Link>
+          <ContactButton />
         </div>
       </section>
       <SolutionsFooter />

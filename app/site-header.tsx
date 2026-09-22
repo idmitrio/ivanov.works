@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useContactModal } from "./contact-modal";
 
 type HeaderSection = "solutions" | "process" | "about" | "faq" | "contacts";
 
 type SiteHeaderProps = {
   active?: HeaderSection | "";
   home?: boolean;
-  onForm?: () => void;
 };
 
 const telegram = "https://t.me/dmitrio";
@@ -24,9 +24,10 @@ const navigation: Array<{ id: HeaderSection; label: string }> = [
   { id: "contacts", label: "Контакты" },
 ];
 
-export default function SiteHeader({ active = "", home = false, onForm }: SiteHeaderProps) {
+export default function SiteHeader({ active = "", home = false }: SiteHeaderProps) {
   const [compact, setCompact] = useState(false);
   const [menu, setMenu] = useState(false);
+  const { openContactModal } = useContactModal();
 
   useEffect(() => {
     const onScroll = () => setCompact(window.scrollY > 48);
@@ -55,18 +56,14 @@ export default function SiteHeader({ active = "", home = false, onForm }: SiteHe
             </Link>
           ))}
         </nav>
-        {onForm ? (
-          <button className="button button--primary header-cta" onClick={onForm}>Обсудить процесс</button>
-        ) : (
-          <Link className="button button--primary header-cta" href="/#contact">Обсудить процесс</Link>
-        )}
+        <button className="button button--primary header-cta" onClick={openContactModal}>Обсудить процесс</button>
         <button className="icon-button mobile-menu-button" onClick={() => setMenu(true)} aria-label="Открыть меню"><span /><span /><span /></button>
       </header>
       <SiteMenu
         active={active}
         home={home}
         onClose={() => setMenu(false)}
-        onForm={onForm}
+        onForm={openContactModal}
         open={menu}
       />
     </>
@@ -83,7 +80,7 @@ function SiteMenu({
   active: HeaderSection | "";
   home: boolean;
   onClose: () => void;
-  onForm?: () => void;
+  onForm: () => void;
   open: boolean;
 }) {
   const panel = useRef<HTMLDivElement>(null);
@@ -120,7 +117,7 @@ function SiteMenu({
   const sectionHref = (id: HeaderSection) => `${home ? "" : "/"}#${id}`;
   const openForm = () => {
     onClose();
-    onForm?.();
+    onForm();
   };
 
   return (
@@ -141,11 +138,7 @@ function SiteMenu({
           </Link>
         ))}
       </nav>
-      {onForm ? (
-        <button className="button button--primary menu-cta" onClick={openForm}>Обсудить процесс</button>
-      ) : (
-        <Link className="button button--primary menu-cta" href="/#contact" onClick={onClose}>Обсудить процесс</Link>
-      )}
+      <button className="button button--primary menu-cta" onClick={openForm}>Обсудить процесс</button>
       <div className="menu-links">
         <a href={telegram} target="_blank" rel="noreferrer">Telegram <span>↗</span></a>
         <a href={maxLink} target="_blank" rel="noreferrer">MAX <span>↗</span></a>

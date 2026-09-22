@@ -1,5 +1,5 @@
-import Link from "next/link";
 import SiteHeader from "../site-header";
+import { ContactButton } from "../contact-modal";
 
 export default function CaseTemplate() {
   return (
@@ -39,7 +39,7 @@ export default function CaseTemplate() {
           <div><h2>Следующий этап</h2><p>[Опишите планы по развитию решения и следующие шаги.]</p></div>
         </section>
       </div>
-      <section className="case-cta"><div><h2>Хотите обсудить похожий процесс?</h2><p>Начнем с конкретной задачи и проверим, есть ли смысл двигаться дальше.</p></div><Link href="/#contact" className="button button--primary">Обсудить процесс</Link></section>
+      <section className="case-cta"><div><h2>Хотите обсудить похожий процесс?</h2><p>Начнем с конкретной задачи и проверим, есть ли смысл двигаться дальше.</p></div><ContactButton /></section>
     </main>
   );
 }

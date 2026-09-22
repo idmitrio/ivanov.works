@@ -3,6 +3,7 @@ import Link from "next/link";
 import { solutionDirections } from "./data";
 import { SolutionsFooter, SolutionsHeader } from "./solutions-ui";
 import { withNbsp } from "../typography";
+import { ContactButton } from "../contact-modal";
 
 export const metadata: Metadata = {
   title: "Сценарии автоматизации — ИИ-студия Дмитрия Иванова",
@@ -52,7 +53,7 @@ export default function SolutionsPage() {
             <h2>Не нашли точного примера?</h2>
             <p>Опишите процесс своими словами. Разберем, есть ли смысл его автоматизировать.</p>
           </div>
-          <Link className="button button--primary" href="/#contact">Обсудить процесс</Link>
+          <ContactButton />
         </div>
       </section>
       <SolutionsFooter />
