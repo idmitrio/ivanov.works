@@ -1,17 +1,10 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
+import SiteHeader from "../site-header";
 
 export default function CaseTemplate() {
-  const [modal, setModal] = useState(false);
   return (
     <main className="case-page">
-      <header className="inner-header">
-        <Link href="/"><img src="/brand/ivanov-ai-logo-black.svg" alt="ИИ-студия Дмитрия Иванова" /></Link>
-        <nav><Link href="/#solutions">Решения</Link><Link href="/#process">Процесс</Link><Link href="/#about">О студии</Link></nav>
-        <button className="button button--primary" onClick={() => setModal(true)}>Обсудить процесс</button>
-      </header>
+      <SiteHeader />
       <section className="case-hero">
         <div>
           <p className="section-kicker">ШАБЛОН КЕЙСА</p>
@@ -46,8 +39,7 @@ export default function CaseTemplate() {
           <div><h2>Следующий этап</h2><p>[Опишите планы по развитию решения и следующие шаги.]</p></div>
         </section>
       </div>
-      <section className="case-cta"><div><h2>Хотите обсудить похожий процесс?</h2><p>Начнем с конкретной задачи и проверим, есть ли смысл двигаться дальше.</p></div><Link href="/#top" className="button button--primary">Обсудить процесс</Link></section>
-      {modal && <div className="template-hint" role="dialog" aria-modal="true"><div><button onClick={() => setModal(false)} aria-label="Закрыть">×</button><h2>Шаблон будущего кейса</h2><p>На опубликованном кейсе эта кнопка откроет общую форму «Обсудить процесс».</p><Link href="/#top" className="button button--primary">Перейти на сайт</Link></div></div>}
+      <section className="case-cta"><div><h2>Хотите обсудить похожий процесс?</h2><p>Начнем с конкретной задачи и проверим, есть ли смысл двигаться дальше.</p></div><Link href="/#contact" className="button button--primary">Обсудить процесс</Link></section>
     </main>
   );
 }

@@ -8,6 +8,8 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import SiteHeader from "./site-header";
+import { withNbsp } from "./typography";
 
 const telegram = "https://t.me/dmitrio";
 const maxLink =
@@ -32,37 +34,42 @@ function reachGoal(goal: "IW_FEEDBACK_OPEN" | "IW_FEEDBACK_SEND") {
 const solutions = [
   {
     title: "Проверка документов",
+    href: "/solutions/documents",
     input: "Например, счет и накладную нужно сверить с заказом, а данные из скана — перенести в учетную систему.",
     system:
-      "ИИ извлекает реквизиты и позиции. Система сверяет их с заказом и данными в 1С или ERP, отмечает расхождения и недостающие документы. Сотрудник проверяет спорные места и подтверждает результат.",
+      "Система извлекает реквизиты и позиции, сверяет их с заказом и учетной системой, затем отмечает расхождения. Сотрудник проверяет спорные места и подтверждает результат.",
     result: "Документы проверены, расхождения отмечены",
   },
   {
     title: "Заявки и коммерческие предложения",
+    href: "/solutions/requests",
     input: "Например, клиент присылает запрос в письме, а перечень товаров или услуг прикладывает в PDF или Excel.",
     system:
-      "ИИ разбирает заявку. Система сопоставляет позиции с каталогом, берет цены из учетной системы и готовит черновик предложения. Сотрудник проверяет состав предложения, согласует условия и отправляет КП клиенту.",
+      "Система разбирает заявку, сопоставляет позиции с каталогом и ценами, затем готовит черновик предложения. Менеджер проверяет состав и условия перед отправкой.",
     result: "От заявки к черновику КП без ручного переноса данных",
   },
   {
     title: "Обращения клиентов",
+    href: "/solutions/support",
     input: "Например, клиент обращается с вопросом по заказу, а сотрудник ищет переписку и уточняет, что уже было сделано.",
     system:
-      "ИИ определяет тему обращения, собирает историю и готовит черновик ответа по регламентам компании. Сотрудник проверяет ответ, а сложные вопросы получает профильный специалист.",
+      "Система определяет тему обращения, собирает историю и готовит ответ по регламентам компании. Сотрудник проверяет ответ, сложные вопросы получает профильный специалист.",
     result: "Ответ клиенту с учетом истории обращения",
   },
   {
     title: "Поиск по документации",
+    href: "/solutions/knowledge-base",
     input: "Например, сотруднику нужно найти условия в договоре, порядок работы в регламенте или нужный пункт инструкции.",
     system:
-      "Помощник ищет в согласованной базе документов и показывает ответ со ссылкой на нужный фрагмент. Если данных нет или источники противоречат друг другу, сообщает об этом. Сотрудник проверяет применимость ответа к своей задаче.",
+      "Помощник ищет ответ в согласованной базе и показывает нужный фрагмент источника. Если данных недостаточно или они противоречат друг другу, сообщает об этом.",
     result: "Нужный пункт инструкции — вместе с источником",
   },
   {
     title: "Отчеты и отклонения",
+    href: "/solutions/reports",
     input: "Например, ежедневная сводка по заказам, просроченным заявкам или задержкам поставок.",
     system:
-      "Система собирает показатели из таблиц и рабочих систем, сравнивает их по заданным правилам. ИИ сводит текстовые комментарии. Руководитель получает отчет со ссылками на исходные данные и решает, какие отклонения требуют действий.",
+      "Система собирает показатели, сравнивает их по заданным правилам и сводит комментарии. Руководитель получает отчет со ссылками на исходные данные и список отклонений.",
     result: "Сводка готова без ручного сбора из разных источников",
   },
 ];
@@ -216,77 +223,16 @@ function SolutionBenefitPanel({
     >
       <div className="solution-benefit-main">
         <span>Что получит ваша команда</span>
-        <h3>{item.result}</h3>
-        <p>{item.input}</p>
+        <h3>{withNbsp(item.result)}</h3>
+        <p>{withNbsp(item.input)}</p>
+        <a className="solution-benefit-link" href={item.href}>
+          <span>Смотреть сценарии</span>
+          <span aria-hidden="true">→</span>
+        </a>
       </div>
       <div className="solution-benefit-proof">
         <strong>За счет чего</strong>
-        <p>{item.system}</p>
-      </div>
-    </div>
-  );
-}
-
-function Menu({
-  open,
-  onClose,
-  onForm,
-}: {
-  open: boolean;
-  onClose: () => void;
-  onForm: () => void;
-}) {
-  const panel = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!open) return;
-    const previous = document.activeElement as HTMLElement | null;
-    document.body.classList.add("locked");
-    panel.current?.querySelector<HTMLButtonElement>(".menu-close")?.focus();
-    const key = (e: globalThis.KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "Tab" && panel.current) {
-        const items = Array.from(
-          panel.current.querySelectorAll<HTMLElement>("a,button"),
-        );
-        const first = items[0];
-        const last = items[items.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    };
-    document.addEventListener("keydown", key);
-    return () => {
-      document.removeEventListener("keydown", key);
-      document.body.classList.remove("locked");
-      previous?.focus();
-    };
-  }, [open, onClose]);
-  if (!open) return null;
-  const navigate = () => onClose();
-  return (
-    <div className="menu-panel" role="dialog" aria-modal="true" aria-label="Меню" ref={panel}>
-      <div className="menu-top">
-        <img src="/brand/ivanov-ai-logo-inv.svg" alt="ИИ-студия Дмитрия Иванова" />
-        <button className="icon-button menu-close" onClick={onClose} aria-label="Закрыть меню">×</button>
-      </div>
-      <nav className="menu-nav">
-        <a href="#solutions" onClick={navigate}>Решения</a>
-        <a href="#process" onClick={navigate}>Как работаем</a>
-        <a href="#about" onClick={navigate}>О студии</a>
-        <a href="#faq" onClick={navigate}>Ответы на вопросы</a>
-      </nav>
-      <button className="button button--primary menu-cta" onClick={() => { onClose(); onForm(); }}>
-        Обсудить процесс
-      </button>
-      <div className="menu-links">
-        <a href={telegram} target="_blank" rel="noreferrer">Telegram <span>↗</span></a>
-        <a href={maxLink} target="_blank" rel="noreferrer">MAX <span>↗</span></a>
-        <a href={email}>dmitry@ivanov.works <span>↗</span></a>
+        <p>{withNbsp(item.system)}</p>
       </div>
     </div>
   );
@@ -496,15 +442,10 @@ export default function Home() {
   const [openSolution, setOpenSolution] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [modal, setModal] = useState(false);
-  const [menu, setMenu] = useState(false);
   const [active, setActive] = useState("");
-  const [compactHeader, setCompactHeader] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setCompactHeader(window.scrollY > 48);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    const sections = ["solutions", "process", "about", "faq"]
+    const sections = ["solutions", "process", "about", "faq", "contacts"]
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
     const observer = new IntersectionObserver(
@@ -518,9 +459,20 @@ export default function Home() {
     );
     sections.forEach((section) => observer.observe(section));
     return () => {
-      window.removeEventListener("scroll", onScroll);
       observer.disconnect();
     };
+  }, []);
+
+  useEffect(() => {
+    const openFromHash = () => {
+      if (window.location.hash !== "#contact") return;
+      reachGoal("IW_FEEDBACK_OPEN");
+      setModal(true);
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    };
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    return () => window.removeEventListener("hashchange", openFromHash);
   }, []);
 
   const openForm = () => {
@@ -529,21 +481,7 @@ export default function Home() {
   };
   return (
     <>
-      <header className={`site-header ${compactHeader ? "site-header--compact" : ""}`}>
-        <a href="#top" className="brand-link" aria-label="На главную">
-          <img className="brand-full" src="/brand/ivanov-ai-logo-inv.svg" alt="ИИ-студия Дмитрия Иванова" />
-          <img className="brand-sign" src="/brand/ivanov-ai-sign-inv.svg" alt="" />
-        </a>
-        <nav className="desktop-nav" aria-label="Основная навигация">
-          <a className={active === "solutions" ? "active" : ""} href="#solutions">Решения</a>
-          <a className={active === "process" ? "active" : ""} href="#process">Как работаем</a>
-          <a className={active === "about" ? "active" : ""} href="#about">О студии</a>
-          <a className={active === "faq" ? "active" : ""} href="#faq">Ответы на вопросы</a>
-          <a href="#contacts">Контакты</a>
-        </nav>
-        <button className="button button--primary header-cta" onClick={openForm}>Обсудить процесс</button>
-        <button className="icon-button mobile-menu-button" onClick={() => setMenu(true)} aria-label="Открыть меню"><span /><span /><span /></button>
-      </header>
+      <SiteHeader active={active as "solutions" | "process" | "about" | "faq" | "contacts" | ""} home onForm={openForm} />
 
       <main id="top">
         <section className="hero">
@@ -581,7 +519,7 @@ export default function Home() {
                       aria-expanded={isOpen}
                       aria-controls={panelId}
                     >
-                      <span>{item.title}</span>
+                      <span>{withNbsp(item.title)}</span>
                       <i aria-hidden="true">
                         <span className="solution-arrow">→</span>
                         <span className="solution-toggle">{isOpen ? "−" : "+"}</span>
@@ -739,7 +677,6 @@ export default function Home() {
           <nav><a href={telegram}>Telegram</a><a href={maxLink}>MAX</a><a href={email}>dmitry@ivanov.works</a><a href="/privacy">Политика обработки персональных данных</a></nav>
         </div>
       </footer>
-      <Menu open={menu} onClose={() => setMenu(false)} onForm={openForm} />
       <ContactModal open={modal} onClose={() => setModal(false)} />
       <CookieNotice enabled />
     </>

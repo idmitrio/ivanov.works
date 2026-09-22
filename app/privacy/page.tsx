@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import SiteHeader from "../site-header";
 
 export const metadata: Metadata = {
   title:
@@ -31,17 +32,7 @@ const sections = [
 export default function PrivacyPage() {
   return (
     <main className="legal-page">
-      <header className="inner-header">
-        <Link href="/" aria-label="На главную">
-          <img
-            src="/brand/ivanov-ai-logo-black.svg"
-            alt="ИИ-студия Дмитрия Иванова"
-          />
-        </Link>
-        <Link href="/" className="back-link">
-          <span>←</span> Вернуться на сайт
-        </Link>
-      </header>
+      <SiteHeader />
 
       <div className="legal-layout">
         <aside className="legal-aside">
