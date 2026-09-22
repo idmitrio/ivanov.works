@@ -2,67 +2,57 @@
 
 
 import {
-  FormEvent,
   useEffect,
-  useRef,
   useState,
   useSyncExternalStore,
 } from "react";
+import SiteHeader from "./site-header";
+import { useContactModal } from "./contact-modal";
+import { withNbsp } from "./typography";
 
 const telegram = "https://t.me/dmitrio";
 const maxLink =
   "https://max.ru/u/f9LHodD0cOIl7MPfiO0OlgTYfDEeoMc8C2UPsPUluf-6LFlEINKfwLu4-O0";
 const email = "mailto:dmitry@ivanov.works";
-const yandexMetrikaId = 109276483;
-
-declare global {
-  interface Window {
-    ym?: (
-      id: number,
-      method: string,
-      goalOrOptions?: string | Record<string, unknown>,
-    ) => void;
-  }
-}
-
-function reachGoal(goal: "IW_FEEDBACK_OPEN" | "IW_FEEDBACK_SEND") {
-  window.ym?.(yandexMetrikaId, "reachGoal", goal);
-}
-
 const solutions = [
   {
     title: "Проверка документов",
+    href: "/solutions/documents",
     input: "Например, счет и накладную нужно сверить с заказом, а данные из скана — перенести в учетную систему.",
     system:
-      "ИИ извлекает реквизиты и позиции. Система сверяет их с заказом и данными в 1С или ERP, отмечает расхождения и недостающие документы. Сотрудник проверяет спорные места и подтверждает результат.",
+      "Система извлекает реквизиты и позиции, сверяет их с заказом и учетной системой, затем отмечает расхождения. Сотрудник проверяет спорные места и подтверждает результат.",
     result: "Документы проверены, расхождения отмечены",
   },
   {
     title: "Заявки и коммерческие предложения",
+    href: "/solutions/requests",
     input: "Например, клиент присылает запрос в письме, а перечень товаров или услуг прикладывает в PDF или Excel.",
     system:
-      "ИИ разбирает заявку. Система сопоставляет позиции с каталогом, берет цены из учетной системы и готовит черновик предложения. Сотрудник проверяет состав предложения, согласует условия и отправляет КП клиенту.",
+      "Система разбирает заявку, сопоставляет позиции с каталогом и ценами, затем готовит черновик предложения. Менеджер проверяет состав и условия перед отправкой.",
     result: "От заявки к черновику КП без ручного переноса данных",
   },
   {
     title: "Обращения клиентов",
+    href: "/solutions/support",
     input: "Например, клиент обращается с вопросом по заказу, а сотрудник ищет переписку и уточняет, что уже было сделано.",
     system:
-      "ИИ определяет тему обращения, собирает историю и готовит черновик ответа по регламентам компании. Сотрудник проверяет ответ, а сложные вопросы получает профильный специалист.",
+      "Система определяет тему обращения, собирает историю и готовит ответ по регламентам компании. Сотрудник проверяет ответ, сложные вопросы получает профильный специалист.",
     result: "Ответ клиенту с учетом истории обращения",
   },
   {
     title: "Поиск по документации",
+    href: "/solutions/knowledge-base",
     input: "Например, сотруднику нужно найти условия в договоре, порядок работы в регламенте или нужный пункт инструкции.",
     system:
-      "Помощник ищет в согласованной базе документов и показывает ответ со ссылкой на нужный фрагмент. Если данных нет или источники противоречат друг другу, сообщает об этом. Сотрудник проверяет применимость ответа к своей задаче.",
+      "Помощник ищет ответ в согласованной базе и показывает нужный фрагмент источника. Если данных недостаточно или они противоречат друг другу, сообщает об этом.",
     result: "Нужный пункт инструкции — вместе с источником",
   },
   {
     title: "Отчеты и отклонения",
+    href: "/solutions/reports",
     input: "Например, ежедневная сводка по заказам, просроченным заявкам или задержкам поставок.",
     system:
-      "Система собирает показатели из таблиц и рабочих систем, сравнивает их по заданным правилам. ИИ сводит текстовые комментарии. Руководитель получает отчет со ссылками на исходные данные и решает, какие отклонения требуют действий.",
+      "Система собирает показатели, сравнивает их по заданным правилам и сводит комментарии. Руководитель получает отчет со ссылками на исходные данные и список отклонений.",
     result: "Сводка готова без ручного сбора из разных источников",
   },
 ];
@@ -216,277 +206,16 @@ function SolutionBenefitPanel({
     >
       <div className="solution-benefit-main">
         <span>Что получит ваша команда</span>
-        <h3>{item.result}</h3>
-        <p>{item.input}</p>
+        <h3>{withNbsp(item.result)}</h3>
+        <p>{withNbsp(item.input)}</p>
+        <a className="solution-benefit-link" href={item.href}>
+          <span>Смотреть сценарии</span>
+          <span aria-hidden="true">→</span>
+        </a>
       </div>
       <div className="solution-benefit-proof">
         <strong>За счет чего</strong>
-        <p>{item.system}</p>
-      </div>
-    </div>
-  );
-}
-
-function Menu({
-  open,
-  onClose,
-  onForm,
-}: {
-  open: boolean;
-  onClose: () => void;
-  onForm: () => void;
-}) {
-  const panel = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!open) return;
-    const previous = document.activeElement as HTMLElement | null;
-    document.body.classList.add("locked");
-    panel.current?.querySelector<HTMLButtonElement>(".menu-close")?.focus();
-    const key = (e: globalThis.KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "Tab" && panel.current) {
-        const items = Array.from(
-          panel.current.querySelectorAll<HTMLElement>("a,button"),
-        );
-        const first = items[0];
-        const last = items[items.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    };
-    document.addEventListener("keydown", key);
-    return () => {
-      document.removeEventListener("keydown", key);
-      document.body.classList.remove("locked");
-      previous?.focus();
-    };
-  }, [open, onClose]);
-  if (!open) return null;
-  const navigate = () => onClose();
-  return (
-    <div className="menu-panel" role="dialog" aria-modal="true" aria-label="Меню" ref={panel}>
-      <div className="menu-top">
-        <img src="/brand/ivanov-ai-logo-inv.svg" alt="ИИ-студия Дмитрия Иванова" />
-        <button className="icon-button menu-close" onClick={onClose} aria-label="Закрыть меню">×</button>
-      </div>
-      <nav className="menu-nav">
-        <a href="#solutions" onClick={navigate}>Решения</a>
-        <a href="#process" onClick={navigate}>Как работаем</a>
-        <a href="#about" onClick={navigate}>О студии</a>
-        <a href="#faq" onClick={navigate}>Ответы на вопросы</a>
-      </nav>
-      <button className="button button--primary menu-cta" onClick={() => { onClose(); onForm(); }}>
-        Обсудить процесс
-      </button>
-      <div className="menu-links">
-        <a href={telegram} target="_blank" rel="noreferrer">Telegram <span>↗</span></a>
-        <a href={maxLink} target="_blank" rel="noreferrer">MAX <span>↗</span></a>
-        <a href={email}>dmitry@ivanov.works <span>↗</span></a>
-      </div>
-    </div>
-  );
-}
-
-type FormStatus = "form" | "sending" | "success" | "error";
-
-function ContactModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const dialog = useRef<HTMLDivElement>(null);
-  const [name, setName] = useState("");
-  const [contact, setContact] = useState("");
-  const [company, setCompany] = useState("");
-  const [message, setMessage] = useState("");
-  const [consent, setConsent] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [status, setStatus] = useState<FormStatus>("form");
-  const [confirmClose, setConfirmClose] = useState(false);
-  const dirty = Boolean(name || contact || company || message || consent);
-  const stateRef = useRef({ dirty, confirmClose, status });
-  const onCloseRef = useRef(onClose);
-  const clearError = (field: string) =>
-    setErrors((current) => {
-      if (!current[field]) return current;
-      const next = { ...current };
-      delete next[field];
-      return next;
-    });
-
-  const resetForm = () => {
-    setName("");
-    setContact("");
-    setCompany("");
-    setMessage("");
-    setConsent(false);
-    setErrors({});
-    setStatus("form");
-    setConfirmClose(false);
-  };
-
-  const discardAndClose = () => {
-    resetForm();
-    onCloseRef.current();
-  };
-
-  const closeRequest = () => {
-    const current = stateRef.current;
-    if (current.status === "success") discardAndClose();
-    else if (!current.dirty) {
-      setConfirmClose(false);
-      onCloseRef.current();
-    } else setConfirmClose(true);
-  };
-  const closeRequestRef = useRef(closeRequest);
-
-  useEffect(() => {
-    stateRef.current = { dirty, confirmClose, status };
-    onCloseRef.current = onClose;
-    closeRequestRef.current = closeRequest;
-  });
-
-  useEffect(() => {
-    if (!open) return;
-    const previous = document.activeElement as HTMLElement | null;
-    document.body.classList.add("locked");
-    requestAnimationFrame(() =>
-      dialog.current?.querySelector<HTMLElement>("button,input")?.focus(),
-    );
-    const key = (e: globalThis.KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        if (stateRef.current.confirmClose) setConfirmClose(false);
-        else closeRequestRef.current();
-      }
-      if (e.key === "Tab" && dialog.current) {
-        const items = Array.from(
-          dialog.current.querySelectorAll<HTMLElement>(
-            "button:not([disabled]),a,input,textarea",
-          ),
-        ).filter((el) => !el.hasAttribute("disabled"));
-        const first = items[0];
-        const last = items[items.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    };
-    document.addEventListener("keydown", key);
-    return () => {
-      document.removeEventListener("keydown", key);
-      document.body.classList.remove("locked");
-      previous?.focus();
-    };
-  }, [open]);
-
-  if (!open) return null;
-
-  const submit = async (e: FormEvent) => {
-    e.preventDefault();
-    const next: Record<string, string> = {};
-    if (!name.trim()) next.name = "Укажите имя";
-    if (!contact.trim()) next.contact = "Укажите корректный контакт";
-    if (!consent)
-      next.consent = "Нужно согласие на обработку персональных данных";
-    setErrors(next);
-    if (Object.keys(next).length) {
-      requestAnimationFrame(() =>
-        dialog.current?.querySelector<HTMLElement>("[aria-invalid='true']")?.focus(),
-      );
-      return;
-    }
-    setStatus("sending");
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, contact, company, message, consent }),
-      });
-      if (!response.ok) throw new Error("Contact request failed");
-      reachGoal("IW_FEEDBACK_SEND");
-      setStatus("success");
-    } catch {
-      setStatus("error");
-    }
-  };
-
-  return (
-    <div className="modal-backdrop" onMouseDown={(e) => e.target === e.currentTarget && closeRequest()}>
-      <div className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" ref={dialog}>
-        <div className="modal-bar">
-          <img src="/brand/ivanov-ai-logo.svg" alt="" />
-          <h2 id="modal-title">{status === "form" || status === "sending" ? "Обсудить процесс" : ""}</h2>
-          <button className="icon-button modal-close" onClick={closeRequest} aria-label="Закрыть">×</button>
-        </div>
-        {status === "success" ? (
-          <div className="result-state">
-            <span className="result-icon result-icon--success">✓</span>
-            <h2>Спасибо, заявка отправлена</h2>
-            <p>Мы свяжемся с вами по указанному контакту и согласуем время разговора.</p>
-            <DirectLinks compact />
-          </div>
-        ) : status === "error" ? (
-          <div className="result-state">
-            <span className="result-icon result-icon--error">!</span>
-            <h2>Не получилось отправить заявку</h2>
-            <p>Проверьте соединение и попробуйте еще раз. Если ошибка повторится, напишите напрямую.</p>
-            <button className="button button--primary button--wide" onClick={() => setStatus("form")}>
-              Попробовать еще раз
-            </button>
-            <p className="direct"><a href={telegram}>Telegram</a> · <a href={maxLink}>MAX</a> · <a href={email}>dmitry@ivanov.works</a></p>
-          </div>
-        ) : (
-          <form onSubmit={submit} noValidate className="contact-form">
-            <p className="modal-lead">Оставьте контакт — согласуем время бесплатного 30-минутного разговора. Документы и доступы для первой встречи не нужны.</p>
-            <label>
-              <span>Ваше имя <b>*</b></span>
-              <input placeholder="Константин Константинопольский" value={name} onChange={(e) => { setName(e.target.value); clearError("name"); }} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "name-error" : undefined} />
-              {errors.name && <small className="field-error" id="name-error">ⓘ {errors.name}</small>}
-            </label>
-            <label>
-              <span>Email или телефон <b>*</b></span>
-              <input placeholder="kostya@konstantinopolis.ru или +7 999 123-45-67" value={contact} onChange={(e) => { setContact(e.target.value); clearError("contact"); }} aria-invalid={Boolean(errors.contact)} aria-describedby={errors.contact ? "contact-error" : undefined} />
-              {errors.contact && <small className="field-error" id="contact-error">ⓘ {errors.contact}</small>}
-            </label>
-            <label>
-              <span>Компания</span>
-              <input placeholder="ООО «Константа»" value={company} onChange={(e) => setCompany(e.target.value)} />
-            </label>
-            <label>
-              <span>Какую ручную работу хотите обсудить?</span>
-              <textarea placeholder="Необязательно. Например: вручную переносим данные из счетов в 1С" value={message} onChange={(e) => setMessage(e.target.value)} rows={3} />
-            </label>
-            <label className="check-row">
-              <input type="checkbox" checked={consent} onChange={(e) => { setConsent(e.target.checked); clearError("consent"); }} aria-invalid={Boolean(errors.consent)} />
-              <span>Я соглашаюсь на обработку персональных данных и принимаю <a href="/privacy" target="_blank">Политику обработки персональных данных</a>.</span>
-            </label>
-            {errors.consent && <small className="field-error consent-error">ⓘ {errors.consent}</small>}
-            <button className="button button--primary button--wide" disabled={status === "sending"}>
-              {status === "sending" && <span className="spinner" aria-hidden="true" />}
-              {status === "sending" ? "Отправляем…" : "Отправить заявку"}
-            </button>
-            <DirectLinks />
-          </form>
-        )}
-        {confirmClose && (
-          <div className="confirm-layer" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title">
-            <div className="confirm-card">
-              <span className="warning">!</span>
-              <h3 id="confirm-title">Закрыть без отправки?</h3>
-              <p>Введенные данные не сохранятся.</p>
-              <div className="confirm-actions">
-                <button className="button button--outline" onClick={() => setConfirmClose(false)}>Продолжить заполнение</button>
-                <button className="button button--primary" onClick={discardAndClose}>Закрыть без отправки</button>
-              </div>
-            </div>
-          </div>
-        )}
+        <p>{withNbsp(item.system)}</p>
       </div>
     </div>
   );
@@ -495,16 +224,11 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
 export default function Home() {
   const [openSolution, setOpenSolution] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [modal, setModal] = useState(false);
-  const [menu, setMenu] = useState(false);
   const [active, setActive] = useState("");
-  const [compactHeader, setCompactHeader] = useState(false);
+  const { openContactModal: openForm } = useContactModal();
 
   useEffect(() => {
-    const onScroll = () => setCompactHeader(window.scrollY > 48);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    const sections = ["solutions", "process", "about", "faq"]
+    const sections = ["solutions", "process", "about", "faq", "contacts"]
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
     const observer = new IntersectionObserver(
@@ -518,32 +242,13 @@ export default function Home() {
     );
     sections.forEach((section) => observer.observe(section));
     return () => {
-      window.removeEventListener("scroll", onScroll);
       observer.disconnect();
     };
   }, []);
 
-  const openForm = () => {
-    reachGoal("IW_FEEDBACK_OPEN");
-    setModal(true);
-  };
   return (
     <>
-      <header className={`site-header ${compactHeader ? "site-header--compact" : ""}`}>
-        <a href="#top" className="brand-link" aria-label="На главную">
-          <img className="brand-full" src="/brand/ivanov-ai-logo-inv.svg" alt="ИИ-студия Дмитрия Иванова" />
-          <img className="brand-sign" src="/brand/ivanov-ai-sign-inv.svg" alt="" />
-        </a>
-        <nav className="desktop-nav" aria-label="Основная навигация">
-          <a className={active === "solutions" ? "active" : ""} href="#solutions">Решения</a>
-          <a className={active === "process" ? "active" : ""} href="#process">Как работаем</a>
-          <a className={active === "about" ? "active" : ""} href="#about">О студии</a>
-          <a className={active === "faq" ? "active" : ""} href="#faq">Ответы на вопросы</a>
-          <a href="#contacts">Контакты</a>
-        </nav>
-        <button className="button button--primary header-cta" onClick={openForm}>Обсудить процесс</button>
-        <button className="icon-button mobile-menu-button" onClick={() => setMenu(true)} aria-label="Открыть меню"><span /><span /><span /></button>
-      </header>
+      <SiteHeader active={active as "solutions" | "process" | "about" | "faq" | "contacts" | ""} home />
 
       <main id="top">
         <section className="hero">
@@ -581,7 +286,7 @@ export default function Home() {
                       aria-expanded={isOpen}
                       aria-controls={panelId}
                     >
-                      <span>{item.title}</span>
+                      <span>{withNbsp(item.title)}</span>
                       <i aria-hidden="true">
                         <span className="solution-arrow">→</span>
                         <span className="solution-toggle">{isOpen ? "−" : "+"}</span>
@@ -597,22 +302,6 @@ export default function Home() {
               })}
             </div>
 
-            <section className="meeting" aria-labelledby="meeting-title">
-              <div className="meeting-layout">
-                <div className="meeting-duration">
-                  <p className="section-kicker">ПЕРВЫЙ РАЗГОВОР</p>
-                  <p className="meeting-time">30 минут</p>
-                  <p className="meeting-terms">Бесплатно · Без обязательств</p>
-                </div>
-                <div className="meeting-summary">
-                  <h2 id="meeting-title">Начнем с одного процесса</h2>
-                  <p>Вы расскажете, где команда тратит время на ручную работу. Мы обсудим, что можно автоматизировать и что проверить дальше.</p>
-                  <p className="meeting-preparation">Документы и доступы для разговора не нужны.</p>
-                  <p className="meeting-next">Дальнейшие работы оплачиваются отдельно. Состав и стоимость согласуем заранее.</p>
-                </div>
-              </div>
-            </section>
-            <button className="button button--primary section-cta" onClick={openForm}>Обсудить процесс</button>
           </div>
         </section>
 
@@ -679,10 +368,6 @@ export default function Home() {
                   <p>Разрабатывал ERP-системы, интеграции с CRM и ресторанными платформами. Основал и технически руководил фудтех-стартапом Smartofood.</p>
                   <p>Вместе с вашей командой определяем, где автоматизация принесет пользу. Я отвечаю за техническое решение, разработку и внедрение.</p>
                 </div>
-                <a className="presentation-link" href="/ivanov-ai-presentation.pdf" download>
-                  <span className="presentation-label">Скачать презентацию</span>
-                  <span className="presentation-icon" aria-hidden="true">↓</span>
-                </a>
               </div>
             </div>
           </div>
@@ -739,8 +424,6 @@ export default function Home() {
           <nav><a href={telegram}>Telegram</a><a href={maxLink}>MAX</a><a href={email}>dmitry@ivanov.works</a><a href="/privacy">Политика обработки персональных данных</a></nav>
         </div>
       </footer>
-      <Menu open={menu} onClose={() => setMenu(false)} onForm={openForm} />
-      <ContactModal open={modal} onClose={() => setModal(false)} />
       <CookieNotice enabled />
     </>
   );

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ContactModalProvider } from "./contact-modal";
 import YandexMetrika from "./yandex-metrika";
 
 export const metadata: Metadata = {
@@ -94,7 +95,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {children}
+        <ContactModalProvider>{children}</ContactModalProvider>
         <YandexMetrika />
       </body>
     </html>
