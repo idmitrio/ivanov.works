@@ -1,6 +1,8 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import Script from "next/script";
+import { useEffect, useRef } from "react";
 
 const counterId = 109276483;
 const counterCode = `
@@ -32,12 +34,33 @@ declare global {
     ym?: (
       id: number,
       method: string,
-      goalOrOptions?: string | Record<string, unknown>,
+      argument?: string | Record<string, unknown>,
+      options?: Record<string, unknown>,
     ) => void;
   }
 }
 
 export default function YandexMetrika() {
+  const pathname = usePathname();
+  const previousUrl = useRef<string | null>(null);
+
+  useEffect(() => {
+    const currentUrl = window.location.href;
+
+    if (previousUrl.current === null) {
+      previousUrl.current = currentUrl;
+      return;
+    }
+
+    if (previousUrl.current === currentUrl) return;
+
+    window.ym?.(counterId, "hit", currentUrl, {
+      title: document.title,
+      referer: previousUrl.current,
+    });
+    previousUrl.current = currentUrl;
+  }, [pathname]);
+
   return (
     <Script
       id="yandex-metrika"

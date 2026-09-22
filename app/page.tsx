@@ -22,7 +22,8 @@ declare global {
     ym?: (
       id: number,
       method: string,
-      goalOrOptions?: string | Record<string, unknown>,
+      argument?: string | Record<string, unknown>,
+      options?: Record<string, unknown>,
     ) => void;
   }
 }
